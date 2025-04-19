@@ -43,7 +43,8 @@ export const highlightJSON = (json) => {
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
-    .replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, 
+    .replace(
+      /("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g,
       (match) => {
         let color = COLORS.STRING; // Default to string color
         let isKey = false;
@@ -62,7 +63,9 @@ export const highlightJSON = (json) => {
 
         // Wrap the match in a span with the appropriate color
         const highlighted = `<span style="color: ${color}">${match}</span>`;
-        return isKey ? highlighted + '<span style="color: inherit">:</span>' : highlighted;
-      }
+        return isKey
+          ? highlighted + '<span style="color: inherit">:</span>'
+          : highlighted;
+      },
     );
 };

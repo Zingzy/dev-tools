@@ -10,7 +10,7 @@ export const formatJSON = (input, indent = 2, sortKeys = false) => {
 
     // Function to sort object keys recursively
     const sortObjectKeys = (obj) => {
-      if (obj === null || typeof obj !== 'object') {
+      if (obj === null || typeof obj !== "object") {
         return obj;
       }
 
@@ -21,7 +21,7 @@ export const formatJSON = (input, indent = 2, sortKeys = false) => {
       const sorted = {};
       Object.keys(obj)
         .sort()
-        .forEach(key => {
+        .forEach((key) => {
           sorted[key] = sortObjectKeys(obj[key]);
         });
       return sorted;
@@ -31,7 +31,7 @@ export const formatJSON = (input, indent = 2, sortKeys = false) => {
     const processedObj = sortKeys ? sortObjectKeys(parsed) : parsed;
 
     // Convert indentation to actual characters
-    const indentStr = indent === 't' ? '\t' : ' '.repeat(Number(indent));
+    const indentStr = indent === "t" ? "\t" : " ".repeat(Number(indent));
 
     // Format with specified indentation
     const formatted = JSON.stringify(processedObj, null, indentStr);
@@ -41,7 +41,7 @@ export const formatJSON = (input, indent = 2, sortKeys = false) => {
     return {
       success: false,
       error: "Invalid JSON: " + error.message,
-      errorPosition: getErrorPosition(error.message)
+      errorPosition: getErrorPosition(error.message),
     };
   }
 };
@@ -67,7 +67,7 @@ export const validateJSON = (input) => {
     return {
       success: false,
       error: "Invalid JSON: " + error.message,
-      errorPosition: getErrorPosition(error.message)
+      errorPosition: getErrorPosition(error.message),
     };
   }
 };
@@ -75,13 +75,14 @@ export const validateJSON = (input) => {
 // Calculate min/max indentation in JSON string
 export const analyzeIndentation = (jsonString) => {
   try {
-    const lines = jsonString.split('\n');
+    const lines = jsonString.split("\n");
     let minIndent = Infinity;
     let maxIndent = 0;
 
-    lines.forEach(line => {
+    lines.forEach((line) => {
       const indent = line.match(/^\s*/)[0].length;
-      if (line.trim()) { // Skip empty lines
+      if (line.trim()) {
+        // Skip empty lines
         minIndent = Math.min(minIndent, indent);
         maxIndent = Math.max(maxIndent, indent);
       }
@@ -91,8 +92,8 @@ export const analyzeIndentation = (jsonString) => {
       success: true,
       value: {
         min: minIndent === Infinity ? 0 : minIndent,
-        max: maxIndent
-      }
+        max: maxIndent,
+      },
     };
   } catch (error) {
     return { success: false, error: error.message };

@@ -22,7 +22,7 @@ export const decodeURL = (input) => {
   } catch (error) {
     return {
       success: false,
-      error: "Invalid URL encoding: " + error.message
+      error: "Invalid URL encoding: " + error.message,
     };
   }
 };
