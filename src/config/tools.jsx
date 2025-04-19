@@ -34,6 +34,14 @@ export const tools = [
     icon: "🔗",
     component: lazy(() => import("../components/tools/URLEncoderTool")),
   },
+  {
+    name: "JSON Formatter",
+    description:
+      "Format and beautify JSON with custom indentation. Features include property sorting, syntax validation, and error highlighting.",
+    path: "/tools/json-formatter",
+    icon: "📝",
+    component: lazy(() => import("../components/tools/JSONFormatterTool")),
+  },
 ];
 
 // Generate route configurations for all tools.
