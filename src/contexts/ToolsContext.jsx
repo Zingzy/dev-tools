@@ -1,4 +1,5 @@
 import { createContext, useContext, useState } from "react";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 
 const ToolsContext = createContext();
 
@@ -12,7 +13,7 @@ export const useTools = () => {
 
 export const ToolsProvider = ({ children }) => {
   const [history, setHistory] = useState([]);
-  const [favorites, setFavorites] = useState([]);
+  const [favorites, setFavorites] = useLocalStorage("tool-favorites", []);
 
   const addToHistory = (tool, input, output) => {
     setHistory((prev) => [
