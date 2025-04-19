@@ -26,6 +26,14 @@ export const tools = [
     icon: "🔑",
     component: lazy(() => import("../components/tools/JWTDecoderTool")),
   },
+  {
+    name: "URL Encoder/Decoder",
+    description:
+      "Encode and decode URL strings. Convert special characters to/from URL-safe format for web applications.",
+    path: "/tools/url-encoder",
+    icon: "🔗",
+    component: lazy(() => import("../components/tools/URLEncoderTool")),
+  },
 ];
 
 // Generate route configurations for all tools.
