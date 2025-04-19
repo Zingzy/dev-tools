@@ -5,12 +5,14 @@ import {
   useColorMode,
   Heading,
   HStack,
+  useBreakpointValue,
 } from "@chakra-ui/react";
-import { MoonIcon, SunIcon } from "@chakra-ui/icons";
+import { MoonIcon, SunIcon, HamburgerIcon } from "@chakra-ui/icons";
 import { Link as RouterLink } from "react-router-dom";
 
-const Navbar = () => {
+const Navbar = ({ onToggleSidebar }) => {
   const { colorMode, toggleColorMode } = useColorMode();
+  const showMenuButton = useBreakpointValue({ base: true, md: false });
 
   return (
     <Box
@@ -19,6 +21,9 @@ const Navbar = () => {
       px={4}
       py={2}
       shadow="md"
+      position="sticky"
+      top="0"
+      zIndex="sticky"
     >
       <Flex
         justify="space-between"
@@ -26,7 +31,15 @@ const Navbar = () => {
         maxW="container.xl"
         mx="auto"
       >
-        <HStack spacing={8}>
+        <HStack spacing={4}>
+          {showMenuButton && (
+            <IconButton
+              aria-label="Toggle sidebar"
+              icon={<HamburgerIcon />}
+              onClick={onToggleSidebar}
+              display={{ base: "flex", md: "none" }}
+            />
+          )}
           <RouterLink to="/">
             <Heading size="md">DevTools</Heading>
           </RouterLink>

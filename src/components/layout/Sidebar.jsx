@@ -6,6 +6,12 @@ import {
   Icon,
   Divider,
   useColorMode,
+  useBreakpointValue,
+  Drawer,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  DrawerBody,
 } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 import { useTools } from "../../contexts/ToolsContext";
@@ -16,23 +22,15 @@ const tools = [
   { name: "Color Picker", path: "/tools/color-picker", icon: "🎨" },
 ];
 
-const Sidebar = () => {
+const Sidebar = ({ isOpen, onClose }) => {
   const { colorMode } = useColorMode();
   const { favorites, toggleFavorite } = useTools();
+  const isMobile = useBreakpointValue({ base: true, md: false });
 
   const bgColor = colorMode === "dark" ? "gray.900" : "gray.50";
   const borderColor = colorMode === "dark" ? "gray.700" : "gray.200";
 
-  return (
-    <Box
-      as="aside"
-      w="250px"
-      h="100%"
-      bg={bgColor}
-      borderRight="1px"
-      borderColor={borderColor}
-      py={4}
-    >
+  const SidebarContent = () => (
       <VStack spacing={2} align="stretch">
         <Box px={4}>
           <Text fontSize="sm" fontWeight="bold" mb={2}>
@@ -49,6 +47,7 @@ const Sidebar = () => {
             py={2}
             display="flex"
             alignItems="center"
+            onClick={isMobile ? onClose : undefined}
             _hover={{
               bg: colorMode === "dark" ? "gray.700" : "gray.100",
               textDecoration: "none",
@@ -87,6 +86,7 @@ const Sidebar = () => {
                   py={2}
                   display="flex"
                   alignItems="center"
+                  onClick={isMobile ? onClose : undefined}
                   _hover={{
                     bg: colorMode === "dark" ? "gray.700" : "gray.100",
                     textDecoration: "none",
@@ -99,6 +99,53 @@ const Sidebar = () => {
           </>
         )}
       </VStack>
+  );
+
+  if (isMobile) {
+    return (
+      <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
+        <DrawerOverlay />
+        <DrawerContent maxW="250px">
+          <DrawerCloseButton />
+          <DrawerBody p={0} bg={bgColor}>
+            <Box py={4}>
+              <SidebarContent />
+            </Box>
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
+    );
+  }
+
+  return (
+    <Box
+      as="aside"
+      w="250px"
+      h="100%"
+      bg={bgColor}
+      borderRight="1px"
+      borderColor={borderColor}
+      py={4}
+      position="fixed"
+      left={0}
+      top="58px"
+      bottom={0}
+      display={{ base: "none", md: "block" }}
+      overflowY="auto"
+      css={{
+        '&::-webkit-scrollbar': {
+          width: '4px',
+        },
+        '&::-webkit-scrollbar-track': {
+          width: '6px',
+        },
+        '&::-webkit-scrollbar-thumb': {
+          background: colorMode === "dark" ? "#4A5568" : "#CBD5E0",
+          borderRadius: '24px',
+        },
+      }}
+    >
+      <SidebarContent />
     </Box>
   );
 };
