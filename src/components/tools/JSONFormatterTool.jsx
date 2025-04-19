@@ -159,6 +159,7 @@ const JSONFormatterTool = () => {
                 size="md"
                 value={indentation}
                 onChange={handleIndentationChange}
+                minW={"120px"}
               >
                 {INDENTATION_OPTIONS.map((option) => (
                   <option key={option.value} value={option.value}>
