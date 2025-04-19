@@ -14,6 +14,7 @@ import {
   Switch,
   Text,
 } from "@chakra-ui/react";
+import SyntaxHighlighter from "../shared/SyntaxHighlighter";
 import { CopyIcon, RepeatIcon } from "@chakra-ui/icons";
 import { useCopyToClipboard } from "../../hooks/useCopyToClipboard";
 import { useToolHistory } from "../../hooks/useToolHistory";
@@ -191,15 +192,10 @@ const JSONFormatterTool = () => {
         </HStack>
 
         <Box position="relative">
-          <Textarea
-            value={output}
-            placeholder="Formatted JSON will appear here"
-            size="lg"
+          <SyntaxHighlighter
+            code={output || "Formatted JSON will appear here"}
+            language="json"
             minH="300px"
-            isReadOnly
-            fontFamily="monospace"
-            whiteSpace="pre"
-            bg={colorMode === "dark" ? "gray.700" : "white"}
           />
           {!isEmpty(output) && (
             <IconButton
@@ -209,6 +205,10 @@ const JSONFormatterTool = () => {
               top={2}
               right={2}
               onClick={() => copyToClipboard(output)}
+              bg={colorMode === "dark" ? "gray.700" : "white"}
+              _hover={{
+                bg: colorMode === "dark" ? "gray.600" : "gray.100",
+              }}
             />
           )}
         </Box>
