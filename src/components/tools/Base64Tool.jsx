@@ -15,7 +15,7 @@ import { useToolHistory } from "../../hooks/useToolHistory";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { encodeToBase64, decodeFromBase64 } from "../../utils/base64Utils";
 import { isEmpty } from "../../utils/common";
-import { isValidBase64, isValidTextLength } from "../../utils/validation";
+import { isValidBase64 } from "../../utils/validation";
 
 const Base64Tool = () => {
   const [input, setInput] = useLocalStorage("base64-input", "");
@@ -27,7 +27,7 @@ const Base64Tool = () => {
 
   const handleInputChange = (e) => {
     const value = e.target.value;
-    if (!isValidTextLength(value, 0, 10000)) {
+    if (value.length > 10000) {
       toast({
         title: "Input Too Long",
         description: "Please enter text less than 10000 characters",

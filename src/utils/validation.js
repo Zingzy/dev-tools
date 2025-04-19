@@ -40,13 +40,3 @@ export const isValidHSL = (h, s, l) => {
 
   return isValidHue(h) && isValidPercentage(s) && isValidPercentage(l);
 };
-
-export const isValidTextLength = (
-  text,
-  minLength = 1,
-  maxLength = Infinity,
-) => {
-  if (isEmpty(text)) return false;
-  const length = text.length;
-  return length >= minLength && length <= maxLength;
-};
