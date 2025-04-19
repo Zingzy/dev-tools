@@ -7,7 +7,7 @@ import {
   useColorMode,
 } from "@chakra-ui/react";
 import ToolCard from "../components/shared/ToolCard";
-import { tools } from "../config/tools";
+import { tools } from "../config/tools.jsx";
 
 const HomePage = () => {
   const { colorMode } = useColorMode();

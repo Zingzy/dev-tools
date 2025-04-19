@@ -5,15 +5,12 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import { ToolsProvider } from "./contexts/ToolsContext";
 import RootLayout from "./components/layout/RootLayout";
 import theme from "./theme";
+import { generateToolRoutes } from "./config/tools.jsx";
 
-// Lazy load pages and tool components
+// Lazy load homepage
 const HomePage = lazy(() => import("./pages/HomePage"));
-const Base64Tool = lazy(() => import("./components/tools/Base64Tool"));
-const ColorPickerTool = lazy(
-  () => import("./components/tools/ColorPickerTool"),
-);
-const JWTDecoderTool = lazy(() => import("./components/tools/JWTDecoderTool"));
 
+// Create router configuration
 const router = createBrowserRouter([
   {
     path: "/",
@@ -27,30 +24,8 @@ const router = createBrowserRouter([
           </Suspense>
         ),
       },
-      {
-        path: "tools/base64",
-        element: (
-          <Suspense fallback={<div>Loading...</div>}>
-            <Base64Tool />
-          </Suspense>
-        ),
-      },
-      {
-        path: "tools/color-picker",
-        element: (
-          <Suspense fallback={<div>Loading...</div>}>
-            <ColorPickerTool />
-          </Suspense>
-        ),
-      },
-      {
-        path: "tools/jwt-decoder",
-        element: (
-          <Suspense fallback={<div>Loading...</div>}>
-            <JWTDecoderTool />
-          </Suspense>
-        ),
-      },
+      // Automatically generate all other tools
+      ...generateToolRoutes(<div>Loading...</div>),
     ],
   },
 ]);

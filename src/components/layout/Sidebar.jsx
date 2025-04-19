@@ -16,7 +16,7 @@ import {
 import { Link as RouterLink } from "react-router-dom";
 import { useTools } from "../../contexts/ToolsContext";
 import { StarIcon } from "@chakra-ui/icons";
-import { tools } from "../../config/tools";
+import { tools } from "../../config/tools.jsx";
 
 const Sidebar = ({ isOpen, onClose }) => {
   const { colorMode } = useColorMode();
