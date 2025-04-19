@@ -12,6 +12,7 @@ const Base64Tool = lazy(() => import("./components/tools/Base64Tool"));
 const ColorPickerTool = lazy(
   () => import("./components/tools/ColorPickerTool"),
 );
+const JWTDecoderTool = lazy(() => import("./components/tools/JWTDecoderTool"));
 
 const router = createBrowserRouter([
   {
@@ -39,6 +40,14 @@ const router = createBrowserRouter([
         element: (
           <Suspense fallback={<div>Loading...</div>}>
             <ColorPickerTool />
+          </Suspense>
+        ),
+      },
+      {
+        path: "tools/jwt-decoder",
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <JWTDecoderTool />
           </Suspense>
         ),
       },

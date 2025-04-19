@@ -23,6 +23,13 @@ const tools = [
     path: "/tools/color-picker",
     icon: "🎨",
   },
+  {
+    name: "JWT Decoder",
+    description:
+      "Decode and inspect JSON Web Tokens (JWT). Visualize header, payload, and validate token expiration.",
+    path: "/tools/jwt-decoder",
+    icon: "🔑",
+  },
 ];
 
 const HomePage = () => {

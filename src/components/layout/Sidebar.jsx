@@ -20,6 +20,7 @@ import { StarIcon } from "@chakra-ui/icons";
 const tools = [
   { name: "Base64 Encoder/Decoder", path: "/tools/base64", icon: "🔄" },
   { name: "Color Picker", path: "/tools/color-picker", icon: "🎨" },
+  { name: "JWT Decoder", path: "/tools/jwt-decoder", icon: "🔑" },
 ];
 
 const Sidebar = ({ isOpen, onClose }) => {
