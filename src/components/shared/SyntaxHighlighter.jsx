@@ -5,25 +5,25 @@ const SyntaxHighlighter = ({
   code,
   language,
   minH = "300px",
+  maxH = "300px",
   fontSize = "sm",
   ...props
 }) => {
   const { colorMode } = useColorMode();
-  const theme = colorMode === "dark" ? themes.nightOwl : themes.nightOwlLight;
+  const theme = colorMode === "dark" ? themes.vsDark : themes.nightOwlLight;
 
   return (
     <Box
-      position="relative"
+      position="absolute"
       fontFamily="monospace"
       fontSize={fontSize}
       minH={minH}
+      w="100%"
+      borderRadius="0.375rem"
+      overflow="hidden"
       {...props}
     >
-      <Highlight
-        theme={theme}
-        code={code}
-        language={language}
-      >
+      <Highlight theme={theme} code={code} language={language}>
         {({ className, style, tokens, getLineProps, getTokenProps }) => (
           <Box
             as="pre"
@@ -33,8 +33,8 @@ const SyntaxHighlighter = ({
               margin: 0,
               padding: "1rem",
               minHeight: minH,
-              borderRadius: "0.375rem",
-              overflow: "scroll",
+              maxHeight: maxH,
+              overflow: "auto",
             }}
           >
             {tokens.map((line, i) => (

@@ -196,6 +196,7 @@ const JSONFormatterTool = () => {
             code={output || "Formatted JSON will appear here"}
             language="json"
             minH="300px"
+            maxH="300px"
           />
           {!isEmpty(output) && (
             <IconButton
@@ -203,12 +204,8 @@ const JSONFormatterTool = () => {
               aria-label="Copy to clipboard"
               position="absolute"
               top={2}
-              right={2}
+              right={3}
               onClick={() => copyToClipboard(output)}
-              bg={colorMode === "dark" ? "gray.700" : "white"}
-              _hover={{
-                bg: colorMode === "dark" ? "gray.600" : "gray.100",
-              }}
             />
           )}
         </Box>
