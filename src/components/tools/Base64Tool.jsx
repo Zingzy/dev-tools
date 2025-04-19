@@ -1,4 +1,3 @@
-import { useState, useCallback } from "react";
 import {
   Box,
   Button,
@@ -6,71 +5,112 @@ import {
   Textarea,
   VStack,
   HStack,
-  useToast,
   IconButton,
   useColorMode,
+  useToast,
 } from "@chakra-ui/react";
 import { CopyIcon } from "@chakra-ui/icons";
-import { useTools } from "../../contexts/ToolsContext";
+import { useCopyToClipboard } from "../../hooks/useCopyToClipboard";
+import { useToolHistory } from "../../hooks/useToolHistory";
+import { useLocalStorage } from "../../hooks/useLocalStorage";
+import { encodeToBase64, decodeFromBase64 } from "../../utils/base64Utils";
+import { isEmpty } from "../../utils/common";
+import { isValidBase64, isValidTextLength } from "../../utils/validation";
 
 const Base64Tool = () => {
-  const [input, setInput] = useState("");
-  const [output, setOutput] = useState("");
-  const { addToHistory } = useTools();
-  const toast = useToast();
+  const [input, setInput] = useLocalStorage("base64-input", "");
+  const [output, setOutput] = useLocalStorage("base64-output", "");
+  const recordHistory = useToolHistory("Base64 Tool");
+  const copyToClipboard = useCopyToClipboard();
   const { colorMode } = useColorMode();
+  const toast = useToast();
 
-  const encode = useCallback(() => {
-    try {
-      const encoded = btoa(input);
-      setOutput(encoded);
-      addToHistory("Base64 Encoder", input, encoded);
-    } catch (error) {
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    if (!isValidTextLength(value, 0, 10000)) {
+      toast({
+        title: "Input Too Long",
+        description: "Please enter text less than 10000 characters",
+        status: "error",
+        duration: 3000,
+      });
+      return;
+    }
+    setInput(value);
+  };
+
+  const encode = () => {
+    if (isEmpty(input)) {
+      toast({
+        title: "Empty Input",
+        description: "Please enter some text to encode",
+        status: "warning",
+        duration: 2000,
+      });
+      return;
+    }
+
+    const result = encodeToBase64(input);
+    if (result.success) {
+      setOutput(result.value);
+      recordHistory(input, result.value);
+    } else {
       toast({
         title: "Encoding Error",
-        description: "Please ensure your input contains valid text",
+        description: result.error,
         status: "error",
         duration: 3000,
       });
+      setOutput("");
     }
-  }, [input, addToHistory, toast]);
+  };
 
-  const decode = useCallback(() => {
-    try {
-      const decoded = atob(input);
-      setOutput(decoded);
-      addToHistory("Base64 Decoder", input, decoded);
-    } catch (error) {
+  const decode = () => {
+    if (isEmpty(input)) {
+      toast({
+        title: "Empty Input",
+        description: "Please enter a Base64 string to decode",
+        status: "warning",
+        duration: 2000,
+      });
+      return;
+    }
+
+    if (!isValidBase64(input)) {
+      toast({
+        title: "Invalid Input",
+        description: "Please enter a valid Base64 string",
+        status: "error",
+        duration: 3000,
+      });
+      return;
+    }
+
+    const result = decodeFromBase64(input);
+    if (result.success) {
+      setOutput(result.value);
+      recordHistory(input, result.value);
+    } else {
       toast({
         title: "Decoding Error",
-        description: "Please ensure your input is valid Base64 encoded text",
+        description: result.error,
         status: "error",
         duration: 3000,
       });
+      setOutput("");
     }
-  }, [input, addToHistory, toast]);
-
-  const copyToClipboard = useCallback(() => {
-    navigator.clipboard.writeText(output);
-    toast({
-      title: "Copied!",
-      description: "Output copied to clipboard",
-      status: "success",
-      duration: 2000,
-    });
-  }, [output, toast]);
+  };
 
   return (
     <Box>
       <Heading size="lg" mb={6}>
         Base64 Encoder/Decoder
       </Heading>
-
       <VStack spacing={4} align="stretch">
         <Box>
           <Textarea
             value={input}
-            onChange={(e) => setInput(e.target.value)}
+            onChange={handleInputChange}
             placeholder="Enter text to encode or decode"
             size="lg"
             minH="150px"
@@ -79,10 +119,18 @@ const Base64Tool = () => {
         </Box>
 
         <HStack spacing={4} justify="center">
-          <Button colorScheme="blue" onClick={encode} isDisabled={!input}>
+          <Button
+            colorScheme="blue"
+            onClick={encode}
+            isDisabled={isEmpty(input)}
+          >
             Encode
           </Button>
-          <Button colorScheme="purple" onClick={decode} isDisabled={!input}>
+          <Button
+            colorScheme="purple"
+            onClick={decode}
+            isDisabled={isEmpty(input)}
+          >
             Decode
           </Button>
         </HStack>
@@ -96,14 +144,14 @@ const Base64Tool = () => {
             isReadOnly
             bg={colorMode === "dark" ? "gray.700" : "white"}
           />
-          {output && (
+          {!isEmpty(output) && (
             <IconButton
               icon={<CopyIcon />}
               aria-label="Copy to clipboard"
               position="absolute"
               top={2}
               right={2}
-              onClick={copyToClipboard}
+              onClick={() => copyToClipboard(output)}
             />
           )}
         </Box>
