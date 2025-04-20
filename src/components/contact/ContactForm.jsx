@@ -71,7 +71,7 @@ const ContactForm = () => {
       // This will trigger the hCaptcha challenge
       await captchaRef.current.execute();
     } catch (error) {
-      console.error('Failed to execute hCaptcha:', error);
+      console.error("Failed to execute hCaptcha:", error);
       setIsSubmitting(false);
       toast({
         title: "Error",
@@ -95,7 +95,7 @@ const ContactForm = () => {
         formData.name,
         formData.email,
         formData.subject,
-        formData.message
+        formData.message,
       );
 
       toast({

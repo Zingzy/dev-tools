@@ -1,10 +1,4 @@
-import {
-  Box,
-  Container,
-  Heading,
-  Text,
-  useColorMode,
-} from "@chakra-ui/react";
+import { Box, Container, Heading, Text, useColorMode } from "@chakra-ui/react";
 import ContactForm from "../components/contact/ContactForm";
 
 const ContactPage = () => {

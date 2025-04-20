@@ -59,15 +59,17 @@ export const verifyHCaptcha = async (token) => {
   });
 
   if (!response.ok) {
-    throw new Error(`hCaptcha verification failed with status ${response.status}`);
+    throw new Error(
+      `hCaptcha verification failed with status ${response.status}`,
+    );
   }
 
   const data = await response.json();
 
   if (!data.success) {
-    const errors = data['error-codes'] || ['Unknown error'];
-    console.error('hCaptcha verification failed:', errors);
-    throw new Error(`Failed to verify hCaptcha response: ${errors.join(', ')}`);
+    const errors = data["error-codes"] || ["Unknown error"];
+    console.error("hCaptcha verification failed:", errors);
+    throw new Error(`Failed to verify hCaptcha response: ${errors.join(", ")}`);
   }
 
   return data.success;
