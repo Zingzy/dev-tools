@@ -2,7 +2,6 @@ import {
   Box,
   VStack,
   Text,
-  SimpleGrid,
   useColorMode,
   IconButton,
   Skeleton,
@@ -17,7 +16,13 @@ const ColorCard = ({ color, isDominant, isLoading }) => {
   const toast = useToast();
 
   const handleCopy = () => {
-    copyToClipboard(color, `${color} has been copied to clipboard`);
+    copyToClipboard(color);
+    toast({
+      title: "Color copied",
+      description: `${color} has been copied to clipboard`,
+      status: "success",
+      duration: 2000,
+    });
   };
 
   return (
@@ -80,29 +85,4 @@ const ColorCard = ({ color, isDominant, isLoading }) => {
   );
 };
 
-const ImagePaletteDisplay = ({ dominantColor, palette, isLoading }) => {
-  return (
-    <VStack spacing={6} align="stretch">
-      {dominantColor && (
-        <ColorCard
-          color={dominantColor}
-          isDominant={true}
-          isLoading={isLoading}
-        />
-      )}
-
-      <SimpleGrid columns={[2, null, 4]} spacing={4}>
-        {palette.map((color, index) => (
-          <ColorCard
-            key={`${color}-${index}`}
-            color={color}
-            isDominant={false}
-            isLoading={isLoading}
-          />
-        ))}
-      </SimpleGrid>
-    </VStack>
-  );
-};
-
-export default ImagePaletteDisplay;
+export default ColorCard;

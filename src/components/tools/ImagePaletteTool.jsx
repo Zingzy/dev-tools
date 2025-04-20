@@ -12,9 +12,11 @@ import {
   Image,
   Stack,
   AspectRatio,
+  SimpleGrid,
+  Tooltip,
 } from "@chakra-ui/react";
 import DropZone from "../shared/DropZone";
-import ImagePaletteDisplay from "./ImagePaletteDisplay";
+import ColorCard from "../shared/ColorCard";
 import { useToolHistory } from "../../hooks/useToolHistory";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { extractColors } from "../../utils/imageUtils";
@@ -22,6 +24,31 @@ import { extractColors } from "../../utils/imageUtils";
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 const DEFAULT_COLOR_COUNT = 4;
 const MAX_COLOR_COUNT = 8;
+
+const ImagePaletteDisplay = ({ dominantColor, palette, isLoading }) => {
+  return (
+    <VStack spacing={6} align="stretch">
+      {dominantColor && (
+        <ColorCard
+          color={dominantColor}
+          isDominant={true}
+          isLoading={isLoading}
+        />
+      )}
+
+      <SimpleGrid columns={[2, null, 4]} spacing={4}>
+        {palette.map((color, index) => (
+          <ColorCard
+            key={`${color}-${index}`}
+            color={color}
+            isDominant={false}
+            isLoading={isLoading}
+          />
+        ))}
+      </SimpleGrid>
+    </VStack>
+  );
+};
 
 const ImagePaletteTool = () => {
   const [image, setImage] = useState(null);
@@ -32,6 +59,7 @@ const ImagePaletteTool = () => {
     DEFAULT_COLOR_COUNT
   );
   const [isProcessing, setIsProcessing] = useState(false);
+  const [showTooltip, setShowTooltip] = useState(false);
 
   const recordHistory = useToolHistory("Image Palette");
   const toast = useToast();
@@ -132,12 +160,22 @@ const ImagePaletteTool = () => {
                 max={MAX_COLOR_COUNT}
                 value={colorCount}
                 onChange={handleColorCountChange}
+                onMouseEnter={() => setShowTooltip(true)}
+                onMouseLeave={() => setShowTooltip(false)}
                 isDisabled={isProcessing}
               >
                 <SliderTrack>
                   <SliderFilledTrack />
                 </SliderTrack>
-                <SliderThumb />
+                <Tooltip
+                  hasArrow
+                  label={`${colorCount} colors`}
+                  placement="top"
+                  isOpen={showTooltip}
+                  bg="blue.500"
+                >
+                  <SliderThumb />
+                </Tooltip>
               </Slider>
             </Box>
 
