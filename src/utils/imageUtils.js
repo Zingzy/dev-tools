@@ -50,21 +50,3 @@ export const extractColors = async (source, colorCount = 4) => {
     throw new Error("Failed to extract colors from image");
   }
 };
-
-// Validate image file
-export const validateImageFile = (file, maxSize) => {
-  if (!file.type.startsWith("image/")) {
-    throw new Error("File must be an image");
-  }
-
-  if (file.size > maxSize) {
-    throw new Error(`File size must be less than ${maxSize / (1024 * 1024)}MB`);
-  }
-
-  const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
-  if (!allowedTypes.includes(file.type)) {
-    throw new Error("File must be a JPG, PNG, or WebP image");
-  }
-
-  return true;
-};

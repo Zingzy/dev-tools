@@ -53,14 +53,6 @@ export const tools = [
     component: lazy(() => import("../components/tools/JSONFormatterTool")),
   },
   {
-    name: "Lorem Ipsum Generator",
-    description:
-      "Generate random Lorem Ipsum text in words, sentences, or paragraphs. Customize length and structure for placeholder text.",
-    path: "/tools/lorem-ipsum",
-    icon: <IconTypography size={20} />,
-    component: lazy(() => import("../components/tools/LoremIpsumTool")),
-  },
-  {
     name: "Image Palette",
     description:
       "Extract color palettes from images. Features dominant color detection and customizable palette size up to 8 colors.",
@@ -75,6 +67,14 @@ export const tools = [
     path: "/tools/color-blindness",
     icon: <IconEyeCheck size={20} />,
     component: lazy(() => import("../components/tools/ColorBlindnessSimulator")),
+  },
+  {
+    name: "Lorem Ipsum Generator",
+    description:
+      "Generate random Lorem Ipsum text in words, sentences, or paragraphs. Customize length and structure for placeholder text.",
+    path: "/tools/lorem-ipsum",
+    icon: <IconTypography size={20} />,
+    component: lazy(() => import("../components/tools/LoremIpsumTool")),
   },
 ];
 

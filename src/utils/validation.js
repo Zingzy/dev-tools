@@ -40,3 +40,22 @@ export const isValidHSL = (h, s, l) => {
 
   return isValidHue(h) && isValidPercentage(s) && isValidPercentage(l);
 };
+
+// Validate image file
+export const validateImageFile = (file, maxSize) => {
+  if (!file.type.startsWith("image/")) {
+    console.log("File type:", file.type);
+    throw new Error("File must be an image");
+  }
+
+  if (file.size > maxSize) {
+    throw new Error(`File size must be less than ${maxSize / (1024 * 1024)}MB`);
+  }
+
+  const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
+  if (!allowedTypes.includes(file.type)) {
+    throw new Error("File must be a JPG, PNG, or WebP image");
+  }
+
+  return true;
+};

@@ -10,14 +10,15 @@ import {
   AspectRatio,
   useToast,
   useColorMode,
+  Spinner
 } from "@chakra-ui/react";
 import DropZone from "../shared/DropZone";
 import ImageModal from "../shared/ImageModal";
 import {
   simulateColorBlindness,
   simulationTypes,
-  validateImageFile,
 } from "../../utils/colorBlindUtils";
+import { validateImageFile } from "../../utils/validation";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 
@@ -77,6 +78,7 @@ const ColorBlindnessSimulator = () => {
   const handleImageUpload = async (file) => {
     try {
       validateImageFile(file, MAX_FILE_SIZE);
+      setSimulations([]);
       setIsProcessing(true);
 
       // Create object URL for original image
@@ -128,11 +130,13 @@ const ColorBlindnessSimulator = () => {
           <Box flex={1}>
             <DropZone
               onImageUpload={handleImageUpload}
-              isProcessing={isProcessing}
+              isProcessing={false}
             />
           </Box>
-          {image && (
-            <Box flex={1}>
+
+          {/* Show original image and simulations only after processing */}
+          {simulations.length > 0 && image && (
+            <Box flex={0.8}>
               <SimulatedImage
                 image={image}
                 title="Original Image"
@@ -161,6 +165,13 @@ const ColorBlindnessSimulator = () => {
           </SimpleGrid>
         )}
       </VStack>
+
+      {/* Show loading indicator below dropzone when processing */}
+      {isProcessing && (
+        <Box display="flex" m={10} justifyContent="center" alignItems="center">
+          <Spinner />
+        </Box>
+      )}
 
       <ImageModal
         isOpen={!!selectedImage}

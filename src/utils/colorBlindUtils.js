@@ -46,11 +46,7 @@ export const simulationTypes = [
   },
 ];
 
-/**
- * Create an image element from a file
- * @param {File} file - Image file
- * @returns {Promise<HTMLImageElement>} Loaded image element
- */
+// Create an image element from a file
 const createImage = (file) => {
   return new Promise((resolve, reject) => {
     const img = new Image();
@@ -60,11 +56,8 @@ const createImage = (file) => {
   });
 };
 
-/**
- * Get pixel data from an image
- * @param {HTMLImageElement} img - Image element
- * @returns {ImageData} Image pixel data
- */
+
+// Get pixel data from an image
 const getImageData = (img) => {
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
@@ -74,11 +67,8 @@ const getImageData = (img) => {
   return ctx.getImageData(0, 0, canvas.width, canvas.height);
 };
 
-/**
- * Convert ImageData to base64 image URL
- * @param {ImageData} imageData - Image pixel data
- * @returns {string} Base64 image URL
- */
+
+// Convert ImageData to base64 image URL
 const imageDataToUrl = (imageData) => {
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
@@ -88,12 +78,7 @@ const imageDataToUrl = (imageData) => {
   return canvas.toDataURL('image/png');
 };
 
-/**
- * Process each pixel of the image with a simulation function
- * @param {ImageData} imageData - Original image data
- * @param {Function} simulateFn - Color blindness simulation function
- * @returns {ImageData} Processed image data
- */
+// Process each pixel of the image with a simulation function
 const processImageData = (imageData, simulateFn) => {
   const data = new Uint8ClampedArray(imageData.data);
   
@@ -122,12 +107,8 @@ const processImageData = (imageData, simulateFn) => {
   return new ImageData(data, imageData.width, imageData.height);
 };
 
-/**
- * Simulate color blindness on an image
- * @param {File} file - Image file
- * @param {string} type - Type of color blindness to simulate
- * @returns {Promise<string>} Base64 URL of simulated image
- */
+
+// Simulate color blindness on an image
 export const simulateColorBlindness = async (file, type) => {
   try {
     const simulationType = simulationTypes.find(t => t.id === type);
@@ -148,27 +129,4 @@ export const simulateColorBlindness = async (file, type) => {
     console.error('Error simulating color blindness:', error);
     throw error;
   }
-};
-
-/**
- * Validate image file
- * @param {File} file - Image file to validate
- * @param {number} maxSize - Maximum file size in bytes
- * @returns {boolean} Whether the file is valid
- */
-export const validateImageFile = (file, maxSize) => {
-  if (!file.type.startsWith('image/')) {
-    throw new Error('File must be an image');
-  }
-
-  if (file.size > maxSize) {
-    throw new Error(`File size must be less than ${maxSize / (1024 * 1024)}MB`);
-  }
-
-  const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
-  if (!allowedTypes.includes(file.type)) {
-    throw new Error('File must be a JPG, PNG, or WebP image');
-  }
-
-  return true;
 };

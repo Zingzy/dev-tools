@@ -76,6 +76,7 @@ const ImagePaletteTool = () => {
     }
 
     setIsProcessing(true);
+
     try {
       const { dominant, palette } = await extractColors(file, colorCount);
       setImage(URL.createObjectURL(file));

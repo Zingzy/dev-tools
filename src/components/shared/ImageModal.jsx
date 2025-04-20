@@ -22,7 +22,7 @@ const ImageModal = ({ isOpen, onClose, image, title, description }) => {
         <Modal
           isOpen={isOpen}
           onClose={onClose}
-          size="6xl"
+          size="4xl"
           isCentered
           motionPreset="none"
         >
