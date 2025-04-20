@@ -54,7 +54,7 @@ const ToolCard = ({ name, description, path, icon }) => {
         </Box>
 
         <Box display="flex" alignItems="center" mb={3}>
-          <Text fontSize="2xl" mr={2}>
+          <Text fontSize="2xl" mr={4}>
             {icon}
           </Text>
           <Heading size="md">{name}</Heading>

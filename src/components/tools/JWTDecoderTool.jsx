@@ -130,7 +130,7 @@ const JWTDecoderTool = () => {
             placeholder="Enter JWT token to decode"
             size="lg"
             minH="100px"
-            bg={colorMode === "dark" ? "gray.800" : "white"}
+            bg={colorMode === "dark" ? "gray.800" : "gray.50"}
           />
         </Box>
 
