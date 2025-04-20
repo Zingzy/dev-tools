@@ -27,47 +27,11 @@ const Sidebar = ({ isOpen, onClose }) => {
   const borderColor = colorMode === "dark" ? "gray.700" : "gray.200";
 
   const SidebarContent = () => (
-    <VStack spacing={2} align="stretch">
-      <Box px={4}>
-        <Text fontSize="sm" fontWeight="bold" mb={2}>
-          TOOLS
-        </Text>
-      </Box>
-
-      {tools.map((tool) => (
-        <Link
-          key={tool.path}
-          as={RouterLink}
-          to={tool.path}
-          px={4}
-          py={2}
-          display="flex"
-          alignItems="center"
-          onClick={isMobile ? onClose : undefined}
-          _hover={{
-            bg: colorMode === "dark" ? "gray.700" : "gray.100",
-            textDecoration: "none",
-          }}
-        >
-          <Text mr={2}>{tool.icon}</Text>
-          <Text flex="1">{tool.name}</Text>
-          <Icon
-            as={StarIcon}
-            color={favorites.includes(tool.path) ? "yellow.400" : "gray.500"}
-            cursor="pointer"
-            onClick={(e) => {
-              e.preventDefault();
-              toggleFavorite(tool.path);
-            }}
-          />
-        </Link>
-      ))}
-
+    <VStack spacing={1} align="stretch" overflow={"auto"}>
       {favorites.length > 0 && (
         <>
-          <Divider my={2} />
           <Box px={4}>
-            <Text fontSize="sm" fontWeight="bold" mb={2}>
+            <Text fontSize="md" fontWeight="bold" mb={2} color={"teal.300"}>
               FAVORITES
             </Text>
           </Box>
@@ -78,8 +42,12 @@ const Sidebar = ({ isOpen, onClose }) => {
                 key={`fav-${tool.path}`}
                 as={RouterLink}
                 to={tool.path}
+                mb={1}
+                mr={2}
+                ml={2}
                 px={4}
                 py={2}
+                borderRadius={"md"}
                 display="flex"
                 alignItems="center"
                 onClick={isMobile ? onClose : undefined}
@@ -92,8 +60,50 @@ const Sidebar = ({ isOpen, onClose }) => {
                 <Text>{tool.name}</Text>
               </Link>
             ))}
+
+          <Divider my={2} />
         </>
       )}
+
+      <Box px={4}>
+        <Text fontSize="md" fontWeight="bold" mb={2} color={"teal.300"}>
+          TOOLS
+        </Text>
+      </Box>
+
+      {tools.map((tool) => (
+        <Link
+          key={tool.path}
+          as={RouterLink}
+          to={tool.path}
+          mb={1}
+          mr={2}
+          ml={2}
+          px={4}
+          py={2}
+          borderRadius={"md"}
+          display="flex"
+          alignItems="center"
+          onClick={isMobile ? onClose : undefined}
+          _hover={{
+            bg: colorMode === "dark" ? "gray.700" : "gray.100",
+            textDecoration: "none",
+          }}
+        >
+          <Text mr={2}>{tool.icon}</Text>
+          <Text flex="1">{tool.name}</Text>
+          <Icon
+            as={StarIcon}
+            ml={2}
+            color={favorites.includes(tool.path) ? "yellow.400" : "gray.500"}
+            cursor="pointer"
+            onClick={(e) => {
+              e.preventDefault();
+              toggleFavorite(tool.path);
+            }}
+          />
+        </Link>
+      ))}
     </VStack>
   );
 

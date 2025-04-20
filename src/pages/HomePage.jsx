@@ -16,23 +16,23 @@ const HomePage = () => {
     <Box>
       <Box
         bg={colorMode === "dark" ? "gray.700" : "gray.50"}
-        py={20}
+        py={"50px"}
         px={4}
-        mb={8}
+        mb={10}
         borderRadius="lg"
       >
         <Container maxW="container.lg">
           <Heading
             as="h1"
-            size="2xl"
-            mb={4}
+            size="xl"
+            mb={5}
             bgGradient="linear(to-r, blue.400, purple.500)"
             bgClip="text"
           >
             Developer Tools
           </Heading>
           <Text
-            fontSize="xl"
+            fontSize="lg"
             color={colorMode === "dark" ? "gray.400" : "gray.600"}
             maxW="container.md"
           >

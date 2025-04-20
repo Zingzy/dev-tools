@@ -20,20 +20,16 @@ const Navbar = ({ onToggleSidebar }) => {
       bg={colorMode === "dark" ? "gray.800" : "white"}
       px={4}
       py={2}
-      shadow="md"
+      shadow="base"
       position="sticky"
       top="0"
       zIndex="sticky"
     >
-      <Flex
-        justify="space-between"
-        align="center"
-        maxW="container.xl"
-        mx="auto"
-      >
+      <Flex justify="space-between" align="center" maxW="100%" mx="auto">
         <HStack spacing={4}>
           {showMenuButton && (
             <IconButton
+              variant={"outline"}
               aria-label="Toggle sidebar"
               icon={<HamburgerIcon />}
               onClick={onToggleSidebar}
@@ -47,6 +43,7 @@ const Navbar = ({ onToggleSidebar }) => {
 
         <HStack spacing={4}>
           <IconButton
+            variant={"ghost"}
             aria-label={`Switch to ${colorMode === "dark" ? "light" : "dark"} mode`}
             icon={colorMode === "dark" ? <SunIcon /> : <MoonIcon />}
             onClick={toggleColorMode}

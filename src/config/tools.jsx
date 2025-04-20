@@ -6,7 +6,7 @@ export const tools = [
     name: "Base64 Encoder/Decoder",
     description:
       "Encode and decode text to/from Base64 format. Useful for handling binary data in text format.",
-      path: "/tools/base64",
+    path: "/tools/base64",
     icon: "🔄",
     component: lazy(() => import("../components/tools/Base64Tool")),
   },
@@ -44,7 +44,8 @@ export const tools = [
   },
   {
     name: "Lorem Ipsum Generator",
-    description: "Generate random Lorem Ipsum text in words, sentences, or paragraphs. Customize length and structure for placeholder text.",
+    description:
+      "Generate random Lorem Ipsum text in words, sentences, or paragraphs. Customize length and structure for placeholder text.",
     path: "/tools/lorem-ipsum",
     icon: "📝",
     component: lazy(() => import("../components/tools/LoremIpsumTool")),

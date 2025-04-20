@@ -1,18 +1,50 @@
 // Common lorem ipsum text to generate from
 const LOREM_IPSUM_WORDS = [
-  "lorem", "ipsum", "dolor", "sit", "amet", "consectetur", "adipiscing", "elit",
-  "sed", "do", "eiusmod", "tempor", "incididunt", "ut", "labore", "et", "dolore",
-  "magna", "aliqua", "enim", "ad", "minim", "veniam", "quis", "nostrud", "exercitation",
-  "ullamco", "laboris", "nisi", "ut", "aliquip", "ex", "ea", "commodo", "consequat"
+  "lorem",
+  "ipsum",
+  "dolor",
+  "sit",
+  "amet",
+  "consectetur",
+  "adipiscing",
+  "elit",
+  "sed",
+  "do",
+  "eiusmod",
+  "tempor",
+  "incididunt",
+  "ut",
+  "labore",
+  "et",
+  "dolore",
+  "magna",
+  "aliqua",
+  "enim",
+  "ad",
+  "minim",
+  "veniam",
+  "quis",
+  "nostrud",
+  "exercitation",
+  "ullamco",
+  "laboris",
+  "nisi",
+  "ut",
+  "aliquip",
+  "ex",
+  "ea",
+  "commodo",
+  "consequat",
 ];
 
-const getRandomElement = (array) => array[Math.floor(Math.random() * array.length)];
+const getRandomElement = (array) =>
+  array[Math.floor(Math.random() * array.length)];
 
 const generateWords = (length, startWithLorem = false) => {
   const words = Array(length)
     .fill()
     .map(() => getRandomElement(LOREM_IPSUM_WORDS));
-  
+
   if (startWithLorem) {
     words.unshift("amet");
     words.unshift("sit");
@@ -50,9 +82,15 @@ export const generateLoremIpsum = (type, length, startWithLorem = false) => {
       case "words":
         return { success: true, value: generateWords(length, startWithLorem) };
       case "sentences":
-        return { success: true, value: generateSentences(length, startWithLorem) };
+        return {
+          success: true,
+          value: generateSentences(length, startWithLorem),
+        };
       case "paragraphs":
-        return { success: true, value: generateParagraphs(length, startWithLorem) };
+        return {
+          success: true,
+          value: generateParagraphs(length, startWithLorem),
+        };
       default:
         return { success: false, error: "Invalid generation type" };
     }

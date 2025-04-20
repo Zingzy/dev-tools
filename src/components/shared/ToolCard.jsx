@@ -38,7 +38,7 @@ const ToolCard = ({ name, description, path, icon }) => {
         <Box
           position="absolute"
           top={2}
-          right={2}
+          right={3}
           onClick={(e) => {
             e.preventDefault();
             toggleFavorite(path);
@@ -59,7 +59,10 @@ const ToolCard = ({ name, description, path, icon }) => {
           <Heading size="md">{name}</Heading>
         </Box>
 
-        <Text color={colorMode === "dark" ? "gray.400" : "gray.600"}>
+        <Text
+          noOfLines={2}
+          color={colorMode === "dark" ? "gray.400" : "gray.600"}
+        >
           {description}
         </Text>
       </Box>

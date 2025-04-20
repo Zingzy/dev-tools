@@ -27,7 +27,10 @@ import { isEmpty } from "../../utils/common";
 const LoremIpsumTool = () => {
   const [type, setType] = useLocalStorage("lorem-type", "paragraphs");
   const [length, setLength] = useLocalStorage("lorem-length", 3);
-  const [startWithLorem, setStartWithLorem] = useLocalStorage("lorem-start", false);
+  const [startWithLorem, setStartWithLorem] = useLocalStorage(
+    "lorem-start",
+    false,
+  );
   const [output, setOutput] = useLocalStorage("lorem-output", "");
   const recordHistory = useToolHistory("Lorem Ipsum Generator");
   const copyToClipboard = useCopyToClipboard();
@@ -38,7 +41,10 @@ const LoremIpsumTool = () => {
     const result = generateLoremIpsum(type, length, startWithLorem);
     if (result.success) {
       setOutput(result.value);
-      recordHistory(`${type}: ${length}${startWithLorem ? ' (classic start)' : ''}`, result.value);
+      recordHistory(
+        `${type}: ${length}${startWithLorem ? " (classic start)" : ""}`,
+        result.value,
+      );
     } else {
       toast({
         title: "Generation Error",
@@ -93,8 +99,8 @@ const LoremIpsumTool = () => {
           />
         </HStack>
 
-        <HStack spacing={4} justifyContent={"center"} >
-          <Button colorScheme="blue" onClick={handleGenerate} >
+        <HStack spacing={4} justifyContent={"center"}>
+          <Button colorScheme="blue" onClick={handleGenerate}>
             Generate
           </Button>
         </HStack>
@@ -103,7 +109,7 @@ const LoremIpsumTool = () => {
           <Textarea
             value={output}
             placeholder="Generated text will appear here"
-            size="lg"
+            size="md"
             minH="300px"
             isReadOnly
             bg={colorMode === "dark" ? "gray.700" : "white"}
