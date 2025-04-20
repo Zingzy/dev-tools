@@ -7,6 +7,7 @@ import {
   IconBraces,
   IconTypography,
   IconPhoto,
+  IconEyeCheck,
 } from "@tabler/icons-react";
 
 // Configuration for all available developer tools.
@@ -67,11 +68,19 @@ export const tools = [
     icon: <IconPhoto size={20} />,
     component: lazy(() => import("../components/tools/ImagePaletteTool")),
   },
+  {
+    name: "Color Blindness Simulator",
+    description:
+      "Simulate different types of color blindness on images to help design for accessibility. Includes common vision deficiencies.",
+    path: "/tools/color-blindness",
+    icon: <IconEyeCheck size={20} />,
+    component: lazy(() => import("../components/tools/ColorBlindnessSimulator")),
+  },
 ];
 
 // Generate route configurations for all tools.
 export const generateToolRoutes = (
-  LoadingComponent = <div>Loading...</div>,
+  LoadingComponent = <div>Loading...</div>
 ) => {
   return tools.map((tool) => ({
     path: tool.path.slice(1), // Remove leading slash for react-router
