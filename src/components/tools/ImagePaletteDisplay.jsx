@@ -17,13 +17,7 @@ const ColorCard = ({ color, isDominant, isLoading }) => {
   const toast = useToast();
 
   const handleCopy = () => {
-    copyToClipboard(color);
-    toast({
-      title: "Color copied",
-      description: `${color} has been copied to clipboard`,
-      status: "success",
-      duration: 2000,
-    });
+    copyToClipboard(color, `${color} has been copied to clipboard`);
   };
 
   return (
@@ -34,11 +28,13 @@ const ColorCard = ({ color, isDominant, isLoading }) => {
         bg={color}
         borderRadius="lg"
         overflow="hidden"
-        boxShadow="md"
-        transition="all 0.2s"
+        borderWidth="2px"
+        borderColor="transparent"
+        boxShadow="sm"
+        transition="all 0.2s ease"
         _hover={{
-          transform: "scale(1.05)",
-          boxShadow: "lg",
+          boxShadow: "md",
+          borderColor: colorMode === "dark" ? "whiteAlpha.300" : "blackAlpha.100",
         }}
       >
         <Box
@@ -60,11 +56,7 @@ const ColorCard = ({ color, isDominant, isLoading }) => {
                 Dominant Color
               </Text>
             )}
-            <Box
-              display="flex"
-              justifyContent="space-between"
-              alignItems="center"
-            >
+            <Box display="flex" justifyContent="space-between" alignItems="center">
               <Text
                 fontSize="sm"
                 fontFamily="monospace"

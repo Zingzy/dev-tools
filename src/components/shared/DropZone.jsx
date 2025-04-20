@@ -76,16 +76,16 @@ const DropZone = ({ onImageUpload, isProcessing }) => {
       bg={
         isDragging
           ? colorMode === "dark"
-            ? "blue.800"
-            : "blue.50"
-          : colorMode === "dark"
             ? "gray.700"
+            : "gray.100"
+          : colorMode === "dark"
+            ? "gray.800"
             : "gray.50"
       }
-      transition="all 0.2s"
+      transition="all 0.2s ease"
       _hover={{
         borderColor: "blue.500",
-        bg: colorMode === "dark" ? "gray.600" : "gray.100",
+        bg: colorMode === "dark" ? "gray.700" : "gray.100",
       }}
       onDragEnter={handleDragIn}
       onDragLeave={handleDragOut}

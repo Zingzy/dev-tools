@@ -9,6 +9,9 @@ import {
   SliderFilledTrack,
   SliderThumb,
   useToast,
+  Image,
+  Stack,
+  AspectRatio,
 } from "@chakra-ui/react";
 import DropZone from "../shared/DropZone";
 import ImagePaletteDisplay from "./ImagePaletteDisplay";
@@ -26,7 +29,7 @@ const ImagePaletteTool = () => {
   const [colorPalette, setColorPalette] = useState([]);
   const [colorCount, setColorCount] = useLocalStorage(
     "paletteColorCount",
-    DEFAULT_COLOR_COUNT,
+    DEFAULT_COLOR_COUNT
   );
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -90,10 +93,33 @@ const ImagePaletteTool = () => {
       </Heading>
 
       <VStack spacing={6} align="stretch">
-        <DropZone
-          onImageUpload={handleImageUpload}
-          isProcessing={isProcessing}
-        />
+        <Stack
+          direction={{ base: "column", md: "row" }}
+          spacing={6}
+          align="stretch"
+        >
+          <Box flex={1}>
+            <DropZone
+              onImageUpload={handleImageUpload}
+              isProcessing={isProcessing}
+            />
+          </Box>
+          {image && (
+            <Box flex={1}>
+              <AspectRatio ratio={16 / 9}>
+                <Image
+                  src={image}
+                  alt="Uploaded image"
+                  objectFit="contain"
+                  borderRadius="lg"
+                  boxShadow="sm"
+                  bg="gray.100"
+                  _dark={{ bg: "gray.700" }}
+                />
+              </AspectRatio>
+            </Box>
+          )}
+        </Stack>
 
         {image && (
           <>
