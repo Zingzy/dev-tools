@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
 import { sendDiscordWebhook, verifyHCaptcha } from "../../utils/webhookUtils";
 import {
@@ -17,6 +17,7 @@ import {
 const ContactForm = () => {
   const toast = useToast();
   const { colorMode } = useColorMode();
+  const captchaRef = useRef(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -25,7 +26,6 @@ const ContactForm = () => {
     message: "",
   });
   const [errors, setErrors] = useState({});
-  const [captchaToken, setCaptchaToken] = useState("");
 
   const validateForm = () => {
     const newErrors = {};
@@ -65,26 +65,39 @@ const ContactForm = () => {
       return;
     }
 
-    if (!captchaToken) {
-      setErrors((prev) => ({ ...prev, captcha: "Please complete the captcha" }));
-      return;
-    }
-
+    // only execute hCaptcha when form is valid
     setIsSubmitting(true);
     try {
-      const isValid = await verifyHCaptcha(captchaToken);
+      // This will trigger the hCaptcha challenge
+      await captchaRef.current.execute();
+    } catch (error) {
+      console.error('Failed to execute hCaptcha:', error);
+      setIsSubmitting(false);
+      toast({
+        title: "Error",
+        description: "Failed to verify captcha. Please try again.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+  };
+
+  const onCaptchaVerify = async (token) => {
+    try {
+      const isValid = await verifyHCaptcha(token);
       if (!isValid) {
-        setErrors((prev) => ({ ...prev, captcha: "Invalid captcha" }));
-        return;
+        throw new Error("Invalid captcha");
       }
 
+      // Send the message after captcha verification
       await sendDiscordWebhook(
         formData.name,
         formData.email,
         formData.subject,
         formData.message
       );
-      
+
       toast({
         title: "Message sent!",
         description: "We'll get back to you as soon as possible.",
@@ -200,19 +213,14 @@ const ContactForm = () => {
           <FormErrorMessage fontSize="xs">{errors.message}</FormErrorMessage>
         </FormControl>
 
-        <FormControl isInvalid={!!errors.captcha}>
-          <HCaptcha
-            sitekey={import.meta.env.VITE_HCAPTCHA_SITE_KEY}
-            onVerify={(token) => {
-              setCaptchaToken(token);
-              if (errors.captcha) {
-                setErrors((prev) => ({ ...prev, captcha: undefined }));
-              }
-            }}
-            theme={colorMode}
-          />
-          <FormErrorMessage fontSize="xs">{errors.captcha}</FormErrorMessage>
-        </FormControl>
+        {/* Invisible hCaptcha */}
+        <HCaptcha
+          ref={captchaRef}
+          sitekey={import.meta.env.VITE_HCAPTCHA_SITE_KEY}
+          onVerify={onCaptchaVerify}
+          size="invisible"
+          theme={colorMode}
+        />
 
         <Button
           type="submit"
@@ -221,7 +229,6 @@ const ContactForm = () => {
           width="full"
           isLoading={isSubmitting}
           loadingText="Sending..."
-          mt={2}
         >
           Send Message
         </Button>
