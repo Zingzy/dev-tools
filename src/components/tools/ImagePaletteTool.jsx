@@ -56,7 +56,7 @@ const ImagePaletteTool = () => {
   const [colorPalette, setColorPalette] = useState([]);
   const [colorCount, setColorCount] = useLocalStorage(
     "paletteColorCount",
-    DEFAULT_COLOR_COUNT
+    DEFAULT_COLOR_COUNT,
   );
   const [isProcessing, setIsProcessing] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);

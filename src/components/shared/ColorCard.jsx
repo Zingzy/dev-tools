@@ -13,7 +13,6 @@ import { useCopyToClipboard } from "../../hooks/useCopyToClipboard";
 const ColorCard = ({ color, isDominant, isLoading }) => {
   const { colorMode } = useColorMode();
   const copyToClipboard = useCopyToClipboard();
-  const toast = useToast();
 
   const handleCopy = () => {
     copyToClipboard(color, `${color} has been copied to clipboard`);
@@ -33,7 +32,8 @@ const ColorCard = ({ color, isDominant, isLoading }) => {
         transition="all 0.2s ease"
         _hover={{
           boxShadow: "md",
-          borderColor: colorMode === "dark" ? "whiteAlpha.300" : "blackAlpha.100",
+          borderColor:
+            colorMode === "dark" ? "whiteAlpha.300" : "blackAlpha.100",
         }}
       >
         <Box
@@ -55,7 +55,11 @@ const ColorCard = ({ color, isDominant, isLoading }) => {
                 Dominant Color
               </Text>
             )}
-            <Box display="flex" justifyContent="space-between" alignItems="center">
+            <Box
+              display="flex"
+              justifyContent="space-between"
+              alignItems="center"
+            >
               <Text
                 fontSize="sm"
                 fontFamily="monospace"
