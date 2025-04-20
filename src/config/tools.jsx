@@ -66,7 +66,9 @@ export const tools = [
       "Simulate different types of color blindness on images to help design for accessibility. Includes common vision deficiencies.",
     path: "/tools/color-blindness",
     icon: <IconEyeCheck size={20} />,
-    component: lazy(() => import("../components/tools/ColorBlindnessSimulator")),
+    component: lazy(
+      () => import("../components/tools/ColorBlindnessSimulator"),
+    ),
   },
   {
     name: "Lorem Ipsum Generator",
@@ -80,7 +82,7 @@ export const tools = [
 
 // Generate route configurations for all tools.
 export const generateToolRoutes = (
-  LoadingComponent = <div>Loading...</div>
+  LoadingComponent = <div>Loading...</div>,
 ) => {
   return tools.map((tool) => ({
     path: tool.path.slice(1), // Remove leading slash for react-router

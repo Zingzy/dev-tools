@@ -10,7 +10,7 @@ import {
   AspectRatio,
   useToast,
   useColorMode,
-  Spinner
+  Spinner,
 } from "@chakra-ui/react";
 import DropZone from "../shared/DropZone";
 import ImageModal from "../shared/ImageModal";
@@ -22,7 +22,7 @@ import { validateImageFile } from "../../utils/validation";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 
-const SimulatedImage = ({ image, title, description, isLoading, onClick }) => {
+const SimulatedImage = ({ image, title, description, onClick }) => {
   const { colorMode } = useColorMode();
 
   return (
@@ -95,7 +95,7 @@ const ColorBlindnessSimulator = () => {
             description: type.description,
             image: simulatedUrl,
           };
-        })
+        }),
       );
 
       setSimulations(results);
@@ -128,10 +128,7 @@ const ColorBlindnessSimulator = () => {
           align="stretch"
         >
           <Box flex={1}>
-            <DropZone
-              onImageUpload={handleImageUpload}
-              isProcessing={false}
-            />
+            <DropZone onImageUpload={handleImageUpload} isProcessing={false} />
           </Box>
 
           {/* Show original image and simulations only after processing */}
@@ -142,7 +139,11 @@ const ColorBlindnessSimulator = () => {
                 title="Original Image"
                 description="Click to view larger version"
                 onClick={() =>
-                  handleImageClick("Original Image", image, "Original image without any simulation")
+                  handleImageClick(
+                    "Original Image",
+                    image,
+                    "Original image without any simulation",
+                  )
                 }
               />
             </Box>
