@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
 import { sendDiscordWebhook, verifyHCaptcha } from "../../utils/webhookUtils";
 import {
@@ -72,20 +72,19 @@ const ContactForm = () => {
 
     setIsSubmitting(true);
     try {
-      // Verify captcha
       const isValid = await verifyHCaptcha(captchaToken);
       if (!isValid) {
         setErrors((prev) => ({ ...prev, captcha: "Invalid captcha" }));
         return;
       }
 
-      // Send message via webhook
       await sendDiscordWebhook(
         formData.name,
         formData.email,
         formData.subject,
         formData.message
       );
+      
       toast({
         title: "Message sent!",
         description: "We'll get back to you as soon as possible.",
@@ -94,7 +93,6 @@ const ContactForm = () => {
         isClosable: true,
       });
 
-      // Reset form after successful submission
       setFormData({
         name: "",
         email: "",
@@ -126,56 +124,80 @@ const ContactForm = () => {
     <Box
       as="form"
       onSubmit={handleSubmit}
-      bg={colorMode === "dark" ? "gray.800" : "white"}
-      p={8}
-      borderRadius="lg"
-      shadow="base"
+      borderWidth="1px"
+      borderColor={colorMode === "dark" ? "gray.700" : "gray.200"}
+      borderRadius="md"
+      p={{ base: 4, md: 6 }}
     >
-      <VStack spacing={6}>
+      <VStack spacing={5} align="stretch">
         <FormControl isInvalid={!!errors.name} isRequired>
-          <FormLabel>Name</FormLabel>
+          <FormLabel fontSize="sm">Name</FormLabel>
           <Input
             name="name"
             value={formData.name}
             onChange={handleInputChange}
             placeholder="Your name"
+            size="md"
+            variant="filled"
+            _focus={{
+              borderColor: colorMode === "dark" ? "blue.400" : "blue.600",
+              bg: colorMode === "dark" ? "gray.800" : "white",
+            }}
           />
-          <FormErrorMessage>{errors.name}</FormErrorMessage>
+          <FormErrorMessage fontSize="xs">{errors.name}</FormErrorMessage>
         </FormControl>
 
         <FormControl isInvalid={!!errors.email} isRequired>
-          <FormLabel>Email</FormLabel>
+          <FormLabel fontSize="sm">Email</FormLabel>
           <Input
             name="email"
             type="email"
             value={formData.email}
             onChange={handleInputChange}
             placeholder="your.email@example.com"
+            size="md"
+            variant="filled"
+            _focus={{
+              borderColor: colorMode === "dark" ? "blue.400" : "blue.600",
+              bg: colorMode === "dark" ? "gray.800" : "white",
+            }}
           />
-          <FormErrorMessage>{errors.email}</FormErrorMessage>
+          <FormErrorMessage fontSize="xs">{errors.email}</FormErrorMessage>
         </FormControl>
 
         <FormControl isInvalid={!!errors.subject} isRequired>
-          <FormLabel>Subject</FormLabel>
+          <FormLabel fontSize="sm">Subject</FormLabel>
           <Input
             name="subject"
             value={formData.subject}
             onChange={handleInputChange}
             placeholder="Message subject"
+            size="md"
+            variant="filled"
+            _focus={{
+              borderColor: colorMode === "dark" ? "blue.400" : "blue.600",
+              bg: colorMode === "dark" ? "gray.800" : "white",
+            }}
           />
-          <FormErrorMessage>{errors.subject}</FormErrorMessage>
+          <FormErrorMessage fontSize="xs">{errors.subject}</FormErrorMessage>
         </FormControl>
 
         <FormControl isInvalid={!!errors.message} isRequired>
-          <FormLabel>Message</FormLabel>
+          <FormLabel fontSize="sm">Message</FormLabel>
           <Textarea
             name="message"
             value={formData.message}
             onChange={handleInputChange}
             placeholder="Your message"
-            minHeight="200px"
+            minH="150px"
+            size="md"
+            variant="filled"
+            _focus={{
+              borderColor: colorMode === "dark" ? "blue.400" : "blue.600",
+              bg: colorMode === "dark" ? "gray.800" : "white",
+            }}
           />
-          <FormErrorMessage>{errors.message}</FormErrorMessage>
+          <FormErrorMessage fontSize="xs">{errors.message}</FormErrorMessage>
         </FormControl>
 
         <FormControl isInvalid={!!errors.captcha}>
@@ -187,17 +209,19 @@ const ContactForm = () => {
                 setErrors((prev) => ({ ...prev, captcha: undefined }));
               }
             }}
+            theme={colorMode}
           />
-          <FormErrorMessage>{errors.captcha}</FormErrorMessage>
+          <FormErrorMessage fontSize="xs">{errors.captcha}</FormErrorMessage>
         </FormControl>
 
         <Button
           type="submit"
           colorScheme="blue"
-          size="lg"
+          size="md"
           width="full"
           isLoading={isSubmitting}
           loadingText="Sending..."
+          mt={2}
         >
           Send Message
         </Button>
