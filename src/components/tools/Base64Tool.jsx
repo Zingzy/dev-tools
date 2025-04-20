@@ -114,7 +114,7 @@ const Base64Tool = () => {
             placeholder="Enter text to encode or decode"
             size="lg"
             minH="150px"
-            bg={colorMode === "dark" ? "gray.700" : "white"}
+            bg={colorMode === "dark" ? "gray.800" : "white"}
           />
         </Box>
 
@@ -142,7 +142,7 @@ const Base64Tool = () => {
             size="lg"
             minH="150px"
             isReadOnly
-            bg={colorMode === "dark" ? "gray.700" : "white"}
+            bg={colorMode === "dark" ? "gray.800" : "white"}
           />
           {!isEmpty(output) && (
             <IconButton

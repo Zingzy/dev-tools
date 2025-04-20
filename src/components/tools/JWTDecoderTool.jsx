@@ -130,7 +130,7 @@ const JWTDecoderTool = () => {
             placeholder="Enter JWT token to decode"
             size="lg"
             minH="100px"
-            bg={colorMode === "dark" ? "gray.700" : "white"}
+            bg={colorMode === "dark" ? "gray.800" : "white"}
           />
         </Box>
 
@@ -171,7 +171,13 @@ const JWTDecoderTool = () => {
                   onClick={() => copyToClipboard(decodedData.raw.signature)}
                 />
               </HStack>
-              <Text fontFamily="monospace" fontSize="sm" wordBreak="break-all">
+              <Text
+                p={4}
+                fontFamily="monospace"
+                fontSize="sm"
+                wordBreak="break-all"
+                bg={colorMode === "dark" ? "gray.800" : "gray.50"}
+              >
                 {decodedData.signature}
               </Text>
             </Box>

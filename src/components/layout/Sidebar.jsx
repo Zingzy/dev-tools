@@ -15,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 import { useTools } from "../../contexts/ToolsContext";
-import { StarIcon } from "@chakra-ui/icons";
+import { IconStar } from "@tabler/icons-react";
 import { tools } from "../../config/tools.jsx";
 
 const Sidebar = ({ isOpen, onClose }) => {
@@ -56,7 +56,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                   textDecoration: "none",
                 }}
               >
-                <Text mr={2}>{tool.icon}</Text>
+                <Text mr={4}>{tool.icon}</Text>
                 <Text>{tool.name}</Text>
               </Link>
             ))}
@@ -90,10 +90,11 @@ const Sidebar = ({ isOpen, onClose }) => {
             textDecoration: "none",
           }}
         >
-          <Text mr={2}>{tool.icon}</Text>
+          <Text mr={4}>{tool.icon}</Text>
           <Text flex="1">{tool.name}</Text>
           <Icon
-            as={StarIcon}
+            as={IconStar}
+            size={20}
             ml={2}
             color={favorites.includes(tool.path) ? "yellow.400" : "gray.500"}
             cursor="pointer"

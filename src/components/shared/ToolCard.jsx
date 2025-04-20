@@ -7,7 +7,7 @@ import {
   Link as ChakraLink,
 } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
-import { StarIcon } from "@chakra-ui/icons";
+import { IconStar } from "@tabler/icons-react";
 import { useTools } from "../../contexts/ToolsContext";
 
 const ToolCard = ({ name, description, path, icon }) => {
@@ -26,7 +26,7 @@ const ToolCard = ({ name, description, path, icon }) => {
         p={5}
         borderWidth="1px"
         borderRadius="lg"
-        bg={colorMode === "dark" ? "gray.700" : "white"}
+        bg={colorMode === "dark" ? "gray.800" : "gray.50"}
         _hover={{
           transform: "translateY(-2px)",
           boxShadow: "lg",
@@ -46,7 +46,8 @@ const ToolCard = ({ name, description, path, icon }) => {
           cursor="pointer"
         >
           <Icon
-            as={StarIcon}
+            as={IconStar}
+            size={20}
             color={isFavorite ? "yellow.400" : "gray.500"}
             _hover={{ color: isFavorite ? "yellow.500" : "yellow.400" }}
           />

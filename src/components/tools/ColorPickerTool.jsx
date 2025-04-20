@@ -75,9 +75,10 @@ const ColorPickerTool = () => {
 
         <Box
           position="relative"
-          bg={colorMode === "dark" ? "gray.700" : "white"}
+          bg={colorMode === "dark" ? "gray.800" : "white"}
           p={4}
           borderRadius="md"
+          shadow={"base"}
         >
           <Text fontSize="lg" fontFamily="monospace">
             {colorString}

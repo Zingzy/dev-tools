@@ -134,7 +134,7 @@ const JSONFormatterTool = () => {
             placeholder="Enter JSON to format"
             size="lg"
             minH="200px"
-            bg={colorMode === "dark" ? "gray.700" : "white"}
+            bg={colorMode === "dark" ? "gray.800" : "gray.50"}
             fontFamily="monospace"
             isInvalid={!isValid}
             _focus={{
@@ -170,7 +170,7 @@ const JSONFormatterTool = () => {
             </FormControl>
 
             <FormControl display="flex" alignItems="center">
-              <FormLabel htmlFor="sort" mb={0} fontSize="sm">
+              <FormLabel htmlFor="sort" ml={2} mb={0} fontSize="sm">
                 Sort Properties:
               </FormLabel>
               <Switch
@@ -196,7 +196,7 @@ const JSONFormatterTool = () => {
           <SyntaxHighlighter
             code={output || "Formatted JSON will appear here"}
             language="json"
-            minH="300px"
+            minH="250px"
             maxH="300px"
           />
           {!isEmpty(output) && (

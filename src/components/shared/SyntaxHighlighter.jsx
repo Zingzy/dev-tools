@@ -10,7 +10,9 @@ const SyntaxHighlighter = ({
   ...props
 }) => {
   const { colorMode } = useColorMode();
-  const theme = colorMode === "dark" ? themes.vsDark : themes.nightOwlLight;
+  const theme =
+    colorMode === "dark" ? themes.oceanicNext : themes.nightOwlLight;
+  const bgColor = colorMode === "dark" ? "gray.800" : "gray.50";
 
   return (
     <Box
@@ -21,6 +23,9 @@ const SyntaxHighlighter = ({
       w="100%"
       borderRadius="0.375rem"
       overflow="hidden"
+      bg={bgColor}
+      border={"1px"}
+      borderColor={colorMode === "dark" ? "gray.700" : "gray.200"}
       {...props}
     >
       <Highlight theme={theme} code={code} language={language}>
@@ -35,6 +40,7 @@ const SyntaxHighlighter = ({
               minHeight: minH,
               maxHeight: maxH,
               overflow: "auto",
+              backgroundColor: "transparent",
             }}
           >
             {tokens.map((line, i) => (

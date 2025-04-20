@@ -66,7 +66,7 @@ const LoremIpsumTool = () => {
           <Select
             value={type}
             onChange={(e) => setType(e.target.value)}
-            bg={colorMode === "dark" ? "gray.700" : "white"}
+            bg={colorMode === "dark" ? "gray.800" : "gray.50"}
             flex="1"
           >
             <option value="paragraphs">Paragraphs</option>
@@ -80,7 +80,7 @@ const LoremIpsumTool = () => {
             min={1}
             max={50}
             maxW="150px"
-            bg={colorMode === "dark" ? "gray.700" : "white"}
+            bg={colorMode === "dark" ? "gray.800" : "gray.50"}
           >
             <NumberInputField />
             <NumberInputStepper>
@@ -100,7 +100,7 @@ const LoremIpsumTool = () => {
         </HStack>
 
         <HStack spacing={4} justifyContent={"center"}>
-          <Button colorScheme="blue" onClick={handleGenerate}>
+          <Button colorScheme="blue" onClick={handleGenerate} m={5}>
             Generate
           </Button>
         </HStack>
@@ -112,7 +112,7 @@ const LoremIpsumTool = () => {
             size="md"
             minH="300px"
             isReadOnly
-            bg={colorMode === "dark" ? "gray.700" : "white"}
+            bg={colorMode === "dark" ? "gray.800" : "gray.50"}
           />
           {!isEmpty(output) && (
             <IconButton

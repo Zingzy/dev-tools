@@ -7,7 +7,7 @@ import {
   HStack,
   useBreakpointValue,
 } from "@chakra-ui/react";
-import { MoonIcon, SunIcon, HamburgerIcon } from "@chakra-ui/icons";
+import { IconMoon, IconSun, IconMenu2 } from "@tabler/icons-react";
 import { Link as RouterLink } from "react-router-dom";
 
 const Navbar = ({ onToggleSidebar }) => {
@@ -31,7 +31,7 @@ const Navbar = ({ onToggleSidebar }) => {
             <IconButton
               variant={"outline"}
               aria-label="Toggle sidebar"
-              icon={<HamburgerIcon />}
+              icon={<IconMenu2 size={20} />}
               onClick={onToggleSidebar}
               display={{ base: "flex", md: "none" }}
             />
@@ -45,7 +45,13 @@ const Navbar = ({ onToggleSidebar }) => {
           <IconButton
             variant={"ghost"}
             aria-label={`Switch to ${colorMode === "dark" ? "light" : "dark"} mode`}
-            icon={colorMode === "dark" ? <SunIcon /> : <MoonIcon />}
+            icon={
+              colorMode === "dark" ? (
+                <IconSun size={20} />
+              ) : (
+                <IconMoon size={20} />
+              )
+            }
             onClick={toggleColorMode}
           />
         </HStack>

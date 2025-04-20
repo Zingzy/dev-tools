@@ -103,7 +103,7 @@ const URLEncoderTool = () => {
             placeholder="Enter text to encode or decode"
             size="lg"
             minH="150px"
-            bg={colorMode === "dark" ? "gray.700" : "white"}
+            bg={colorMode === "dark" ? "gray.800" : "gray.50"}
           />
         </Box>
 
@@ -131,7 +131,7 @@ const URLEncoderTool = () => {
             size="lg"
             minH="150px"
             isReadOnly
-            bg={colorMode === "dark" ? "gray.700" : "white"}
+            bg={colorMode === "dark" ? "gray.800" : "gray.50"}
           />
           {!isEmpty(output) && (
             <IconButton

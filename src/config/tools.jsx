@@ -1,4 +1,12 @@
 import { lazy, Suspense } from "react";
+import {
+  IconArrowsExchange,
+  IconPalette,
+  IconKey,
+  IconLink,
+  IconBraces,
+  IconTypography,
+} from "@tabler/icons-react";
 
 // Configuration for all available developer tools.
 export const tools = [
@@ -7,7 +15,7 @@ export const tools = [
     description:
       "Encode and decode text to/from Base64 format. Useful for handling binary data in text format.",
     path: "/tools/base64",
-    icon: "🔄",
+    icon: <IconArrowsExchange size={20} />,
     component: lazy(() => import("../components/tools/Base64Tool")),
   },
   {
@@ -15,7 +23,7 @@ export const tools = [
     description:
       "Pick colors and convert between different formats (HEX, RGB, HSL). Includes color palette generation.",
     path: "/tools/color-picker",
-    icon: "🎨",
+    icon: <IconPalette size={20} />,
     component: lazy(() => import("../components/tools/ColorPickerTool")),
   },
   {
@@ -23,7 +31,7 @@ export const tools = [
     description:
       "Decode and inspect JSON Web Tokens (JWT). Visualize header, payload, and validate token expiration.",
     path: "/tools/jwt-decoder",
-    icon: "🔑",
+    icon: <IconKey size={20} />,
     component: lazy(() => import("../components/tools/JWTDecoderTool")),
   },
   {
@@ -31,7 +39,7 @@ export const tools = [
     description:
       "Encode and decode URL strings. Convert special characters to/from URL-safe format for web applications.",
     path: "/tools/url-encoder",
-    icon: "🔗",
+    icon: <IconLink size={20} />,
     component: lazy(() => import("../components/tools/URLEncoderTool")),
   },
   {
@@ -39,7 +47,7 @@ export const tools = [
     description:
       "Format and beautify JSON with custom indentation. Features include property sorting, syntax validation, and error highlighting.",
     path: "/tools/json-formatter",
-    icon: "📝",
+    icon: <IconBraces size={20} />,
     component: lazy(() => import("../components/tools/JSONFormatterTool")),
   },
   {
@@ -47,7 +55,7 @@ export const tools = [
     description:
       "Generate random Lorem Ipsum text in words, sentences, or paragraphs. Customize length and structure for placeholder text.",
     path: "/tools/lorem-ipsum",
-    icon: "📝",
+    icon: <IconTypography size={20} />,
     component: lazy(() => import("../components/tools/LoremIpsumTool")),
   },
 ];

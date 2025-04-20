@@ -15,7 +15,7 @@ const HomePage = () => {
   return (
     <Box>
       <Box
-        bg={colorMode === "dark" ? "gray.700" : "gray.50"}
+        bg={colorMode === "dark" ? "gray.800" : "gray.50"}
         py={"50px"}
         px={4}
         mb={10}
