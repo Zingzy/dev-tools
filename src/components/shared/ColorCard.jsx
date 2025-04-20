@@ -5,7 +5,6 @@ import {
   useColorMode,
   IconButton,
   Skeleton,
-  useToast,
 } from "@chakra-ui/react";
 import { CopyIcon } from "@chakra-ui/icons";
 import { useCopyToClipboard } from "../../hooks/useCopyToClipboard";
