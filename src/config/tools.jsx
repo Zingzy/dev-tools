@@ -6,6 +6,7 @@ import {
   IconLink,
   IconBraces,
   IconTypography,
+  IconPhoto,
 } from "@tabler/icons-react";
 
 // Configuration for all available developer tools.
@@ -57,6 +58,14 @@ export const tools = [
     path: "/tools/lorem-ipsum",
     icon: <IconTypography size={20} />,
     component: lazy(() => import("../components/tools/LoremIpsumTool")),
+  },
+  {
+    name: "Image Palette",
+    description:
+      "Extract color palettes from images. Features dominant color detection and customizable palette size up to 8 colors.",
+    path: "/tools/image-palette",
+    icon: <IconPhoto size={20} />,
+    component: lazy(() => import("../components/tools/ImagePaletteTool")),
   },
 ];
 
