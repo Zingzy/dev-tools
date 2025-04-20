@@ -56,7 +56,7 @@ const ColorCard = ({ color, isDominant, isLoading }) => {
               <Text
                 fontSize="xs"
                 fontWeight="bold"
-                color={colorMode === "dark" ? "gray.300" : "gray.600"}
+                color={colorMode === "dark" ? "gray.300" : "gray.700"}
               >
                 Dominant Color
               </Text>
@@ -65,7 +65,7 @@ const ColorCard = ({ color, isDominant, isLoading }) => {
               <Text
                 fontSize="sm"
                 fontFamily="monospace"
-                color={colorMode === "dark" ? "gray.300" : "gray.600"}
+                color={colorMode === "dark" ? "gray.300" : "gray.700"}
               >
                 {color}
               </Text>
