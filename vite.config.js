@@ -10,4 +10,15 @@ export default defineConfig({
       "@tabler/icons-react": "@tabler/icons-react/dist/esm/icons/index.mjs",
     },
   },
+  server: {
+    host: true,
+    proxy: {
+      "/api/verify-captcha": {
+        target: "https://hcaptcha.com/siteverify",
+        changeOrigin: true,
+        secure: true,
+        rewrite: (path) => path.replace(/^\/api\/verify-captcha/, ""),
+      },
+    },
+  },
 });

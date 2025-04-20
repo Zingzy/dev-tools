@@ -9,6 +9,7 @@ import { generateToolRoutes } from "./config/tools.jsx";
 
 // Lazy load homepage
 const HomePage = lazy(() => import("./pages/HomePage"));
+const ContactPage = lazy(() => import("./pages/ContactPage"));
 
 // Create router configuration
 const router = createBrowserRouter([
@@ -21,6 +22,14 @@ const router = createBrowserRouter([
         element: (
           <Suspense fallback={<div>Loading...</div>}>
             <HomePage />
+          </Suspense>
+        ),
+      },
+      {
+        path: "contact",
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <ContactPage />
           </Suspense>
         ),
       },

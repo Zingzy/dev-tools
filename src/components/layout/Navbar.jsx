@@ -6,8 +6,9 @@ import {
   Heading,
   HStack,
   useBreakpointValue,
+  Button,
 } from "@chakra-ui/react";
-import { IconMoon, IconSun, IconMenu2 } from "@tabler/icons-react";
+import { IconMoon, IconSun, IconMenu2, IconMail } from "@tabler/icons-react";
 import { Link as RouterLink } from "react-router-dom";
 
 const Navbar = ({ onToggleSidebar }) => {
@@ -41,7 +42,16 @@ const Navbar = ({ onToggleSidebar }) => {
           </RouterLink>
         </HStack>
 
-        <HStack spacing={4}>
+        <HStack spacing={4} align="center">
+          <Button
+            as={RouterLink}
+            to="/contact"
+            variant="ghost"
+            leftIcon={<IconMail size={20} />}
+            display={{ base: "none", md: "flex" }}
+          >
+            Contact
+          </Button>
           <IconButton
             variant={"ghost"}
             aria-label={`Switch to ${colorMode === "dark" ? "light" : "dark"} mode`}
