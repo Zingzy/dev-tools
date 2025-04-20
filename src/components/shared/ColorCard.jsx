@@ -16,13 +16,7 @@ const ColorCard = ({ color, isDominant, isLoading }) => {
   const toast = useToast();
 
   const handleCopy = () => {
-    copyToClipboard(color);
-    toast({
-      title: "Color copied",
-      description: `${color} has been copied to clipboard`,
-      status: "success",
-      duration: 2000,
-    });
+    copyToClipboard(color, `${color} has been copied to clipboard`);
   };
 
   return (
