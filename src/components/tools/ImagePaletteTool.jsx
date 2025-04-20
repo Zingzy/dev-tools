@@ -13,6 +13,7 @@ import {
   Stack,
   AspectRatio,
   SimpleGrid,
+  Spinner,
   Tooltip,
 } from "@chakra-ui/react";
 import DropZone from "../shared/DropZone";
@@ -20,6 +21,7 @@ import ColorCard from "../shared/ColorCard";
 import { useToolHistory } from "../../hooks/useToolHistory";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { extractColors } from "../../utils/imageUtils";
+import { validateImageFile } from "../../utils/validation";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 const DEFAULT_COLOR_COUNT = 4;
@@ -65,10 +67,12 @@ const ImagePaletteTool = () => {
   const toast = useToast();
 
   const handleImageUpload = async (file) => {
-    if (file.size > MAX_FILE_SIZE) {
+    try {
+      validateImageFile(file, MAX_FILE_SIZE);
+    } catch (error) {
       toast({
-        title: "File too large",
-        description: "Maximum file size is 5MB",
+        title: "Invalid file",
+        description: error.message,
         status: "error",
         duration: 3000,
       });
@@ -131,6 +135,7 @@ const ImagePaletteTool = () => {
             <DropZone
               onImageUpload={handleImageUpload}
               isProcessing={isProcessing}
+              acceptedFileTypes={["image/*"]}
             />
           </Box>
           {image && (

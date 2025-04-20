@@ -7,12 +7,38 @@ import {
   useColorMode,
   Icon,
   Spinner,
+  HStack,
 } from "@chakra-ui/react";
 import { IconUpload } from "@tabler/icons-react";
 
-const DropZone = ({ onImageUpload, isProcessing }) => {
+const DropZone = ({
+  onImageUpload,
+  isProcessing,
+  acceptedFileTypes = ["image/*"],
+  errorDuration = 3000,
+}) => {
   const [isDragging, setIsDragging] = useState(false);
+  const [error, setError] = useState("");
   const { colorMode } = useColorMode();
+
+  const validateFile = useCallback(
+    (file) => {
+      const isValidType = acceptedFileTypes.some((type) => {
+        if (type === "image/*") {
+          return file.type.startsWith("image/");
+        }
+        return file.type === type;
+      });
+
+      if (!isValidType) {
+        setError("Invalid file type. Please upload a supported file.");
+        setTimeout(() => setError(""), errorDuration);
+        return false;
+      }
+      return true;
+    },
+    [acceptedFileTypes, errorDuration],
+  );
 
   const handleDrag = useCallback((e) => {
     e.preventDefault();
@@ -41,26 +67,34 @@ const DropZone = ({ onImageUpload, isProcessing }) => {
 
       if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
         const file = e.dataTransfer.files[0];
-        if (file.type.startsWith("image/")) {
+        if (validateFile(file)) {
           onImageUpload(file);
         }
         e.dataTransfer.clearData();
       }
     },
-    [onImageUpload],
+    [onImageUpload, validateFile],
   );
 
   const handleFileSelect = useCallback(
     (e) => {
       const file = e.target.files[0];
-      if (file && file.type.startsWith("image/")) {
+      if (file && validateFile(file)) {
         onImageUpload(file);
       }
       // Reset input value to allow selecting the same file again
       e.target.value = "";
     },
-    [onImageUpload],
+    [onImageUpload, validateFile],
   );
+
+  const formatAcceptedTypes = useCallback(() => {
+    return acceptedFileTypes
+      .map((type) => {
+        return `${type.split("/")[0]} files`;
+      })
+      .join(", ");
+  }, [acceptedFileTypes]);
 
   return (
     <Box
@@ -71,7 +105,13 @@ const DropZone = ({ onImageUpload, isProcessing }) => {
       borderRadius="lg"
       borderStyle="dashed"
       borderColor={
-        isDragging ? "blue.500" : colorMode === "dark" ? "gray.600" : "gray.300"
+        error
+          ? "red.500"
+          : isDragging
+            ? "blue.500"
+            : colorMode === "dark"
+              ? "gray.600"
+              : "gray.300"
       }
       bg={
         isDragging
@@ -84,7 +124,7 @@ const DropZone = ({ onImageUpload, isProcessing }) => {
       }
       transition="all 0.2s ease"
       _hover={{
-        borderColor: "blue.500",
+        borderColor: error ? "red.500" : "blue.500",
         bg: colorMode === "dark" ? "gray.700" : "gray.100",
       }}
       onDragEnter={handleDragIn}
@@ -101,28 +141,40 @@ const DropZone = ({ onImageUpload, isProcessing }) => {
         left="0"
         opacity="0"
         aria-hidden="true"
-        accept="image/*"
+        accept={acceptedFileTypes.join(",")}
         onChange={handleFileSelect}
         disabled={isProcessing}
+        sx={{
+          "&:disabled": {
+            opacity: 0,
+            cursor: "not-allowed",
+          },
+        }}
       />
       <VStack
         height="100%"
         width="100%"
         justify="center"
         spacing={2}
-        color={colorMode === "dark" ? "gray.400" : "gray.500"}
+        color={
+          error ? "red.500" : colorMode === "dark" ? "gray.400" : "gray.500"
+        }
       >
-        {isProcessing ? (
-          <Spinner size="lg" color="blue.500" />
-        ) : (
-          <>
-            <Icon as={IconUpload} w={10} h={10} />
-            <Text fontSize="lg" fontWeight="medium">
-              {isDragging ? "Drop image here" : "Drop image or click to upload"}
-            </Text>
-            <Text fontSize="sm">Supports JPG, PNG and WebP (max 5MB)</Text>
-          </>
-        )}
+        <Icon as={IconUpload} w={10} h={10} />
+        <Text fontSize="lg" fontWeight="medium">
+          {error ||
+            (isDragging ? "Drop file here" : "Drop file or click to upload")}
+        </Text>
+        <Text fontSize="sm">
+          {!isProcessing ? (
+            `Supports ${formatAcceptedTypes()} (max 5MB)`
+          ) : (
+            <HStack spacing={2} justify="center">
+              <Spinner size="sm" color="blue.500" />
+              <Text>Processing...</Text>
+            </HStack>
+          )}
+        </Text>
       </VStack>
     </Box>
   );

@@ -77,7 +77,17 @@ const ColorBlindnessSimulator = () => {
 
   const handleImageUpload = async (file) => {
     try {
-      validateImageFile(file, MAX_FILE_SIZE);
+      try {
+        validateImageFile(file, MAX_FILE_SIZE);
+      } catch (error) {
+        toast({
+          title: "Invalid file",
+          description: error.message,
+          status: "error",
+          duration: 3000,
+        });
+        return;
+      }
       setSimulations([]);
       setIsProcessing(true);
 
@@ -128,7 +138,11 @@ const ColorBlindnessSimulator = () => {
           align="stretch"
         >
           <Box flex={1}>
-            <DropZone onImageUpload={handleImageUpload} isProcessing={false} />
+            <DropZone
+              onImageUpload={handleImageUpload}
+              isProcessing={isProcessing}
+              acceptedFileTypes={["image/*"]}
+            />
           </Box>
 
           {/* Show original image and simulations only after processing */}
@@ -166,13 +180,6 @@ const ColorBlindnessSimulator = () => {
           </SimpleGrid>
         )}
       </VStack>
-
-      {/* Show loading indicator below dropzone when processing */}
-      {isProcessing && (
-        <Box display="flex" m={10} justifyContent="center" alignItems="center">
-          <Spinner />
-        </Box>
-      )}
 
       <ImageModal
         isOpen={!!selectedImage}
