@@ -22,12 +22,12 @@ export const tools = [
     component: lazy(() => import("../components/tools/Base64Tool")),
   },
   {
-    name: "Color Picker",
+    name: "Base64 Image Encoder/Decoder",
     description:
-      "Pick colors and convert between different formats (HEX, RGB, HSL). Includes color palette generation.",
-    path: "/tools/color-picker",
-    icon: <IconPalette size={20} />,
-    component: lazy(() => import("../components/tools/ColorPickerTool")),
+      "Encode and decode images to/from Base64 format. Supports drag and drop or pasting Base64 data.",
+    path: "/tools/base64-image",
+    icon: <IconPhoto size={20} />,
+    component: lazy(() => import("../components/tools/Base64ImageTool")),
   },
   {
     name: "JWT Decoder",
@@ -36,14 +36,6 @@ export const tools = [
     path: "/tools/jwt-decoder",
     icon: <IconKey size={20} />,
     component: lazy(() => import("../components/tools/JWTDecoderTool")),
-  },
-  {
-    name: "URL Encoder/Decoder",
-    description:
-      "Encode and decode URL strings. Convert special characters to/from URL-safe format for web applications.",
-    path: "/tools/url-encoder",
-    icon: <IconLink size={20} />,
-    component: lazy(() => import("../components/tools/URLEncoderTool")),
   },
   {
     name: "JSON Formatter",
@@ -72,14 +64,6 @@ export const tools = [
     ),
   },
   {
-    name: "Lorem Ipsum Generator",
-    description:
-      "Generate random Lorem Ipsum text in words, sentences, or paragraphs. Customize length and structure for placeholder text.",
-    path: "/tools/lorem-ipsum",
-    icon: <IconTypography size={20} />,
-    component: lazy(() => import("../components/tools/LoremIpsumTool")),
-  },
-  {
     name: "User Agent Parser",
     description:
       "Parse user agent strings to get detailed information about the browser, OS, and device.",
@@ -88,12 +72,28 @@ export const tools = [
     component: lazy(() => import("../components/tools/UserAgentParser")),
   },
   {
-    name: "Base64 Image Encoder/Decoder",
+    name: "URL Encoder/Decoder",
     description:
-      "Encode and decode images to/from Base64 format. Supports drag and drop or pasting Base64 data.",
-    path: "/tools/base64-image",
-    icon: <IconPhoto size={20} />,
-    component: lazy(() => import("../components/tools/Base64ImageTool")),
+      "Encode and decode URL strings. Convert special characters to/from URL-safe format for web applications.",
+    path: "/tools/url-encoder",
+    icon: <IconLink size={20} />,
+    component: lazy(() => import("../components/tools/URLEncoderTool")),
+  },
+  {
+    name: "Lorem Ipsum Generator",
+    description:
+      "Generate random Lorem Ipsum text in words, sentences, or paragraphs. Customize length and structure for placeholder text.",
+    path: "/tools/lorem-ipsum",
+    icon: <IconTypography size={20} />,
+    component: lazy(() => import("../components/tools/LoremIpsumTool")),
+  },
+  {
+    name: "Color Picker",
+    description:
+      "Pick colors and convert between different formats (HEX, RGB, HSL). Includes color palette generation.",
+    path: "/tools/color-picker",
+    icon: <IconPalette size={20} />,
+    component: lazy(() => import("../components/tools/ColorPickerTool")),
   },
 ];
 

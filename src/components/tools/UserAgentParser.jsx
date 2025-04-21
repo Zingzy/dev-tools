@@ -22,7 +22,7 @@ import { parseUserAgent } from "../../utils/userAgentUtils";
 const InfoItem = ({ label, value, isCode = false }) => (
   <Flex justify="space-between" align="baseline">
     <Text fontSize="sm" fontWeight="bold" mr={2}>
-      {label}:
+      {label}
     </Text>
     {isCode ? (
       <Code fontSize="sm" wordBreak="break-all" whiteSpace="pre-wrap">
@@ -88,49 +88,36 @@ const UserAgentParser = () => {
         User Agent Parser
       </Heading>
       <VStack spacing={6} align="stretch">
-        <Box
-          borderWidth="1px"
-          borderColor={colorMode === "dark" ? "gray.700" : "gray.200"}
-          borderRadius="md"
-          p={{ base: 4, md: 6 }}
-          bg={colorMode === "dark" ? "gray.800" : "white"}
-        >
-          <VStack spacing={4} align="stretch">
-            <FormControl>
-              <FormLabel fontSize="md">User Agent String</FormLabel>
-              <Textarea
-                value={userAgentInput}
-                onChange={handleInputChange}
-                placeholder="Paste user agent string here or use the button below"
-                size="md"
-                minH="100px"
-                bg={colorMode === "dark" ? "gray.700" : "gray.50"}
-                _focus={{
-                  borderColor: colorMode === "dark" ? "blue.400" : "blue.600",
-                  bg: colorMode === "dark" ? "gray.700" : "white",
-                }}
-                fontFamily="monospace"
-              />
-            </FormControl>
-            <HStack spacing={4} justify="flex-start">
-              <Button
-                colorScheme="blue"
-                size="md"
-                onClick={handleParseClick}
-                isDisabled={!userAgentInput}
-              >
-                Parse Entered User Agent
-              </Button>
-              <Button
-                colorScheme="teal"
-                size="md"
-                onClick={handleParseCurrentUserAgent}
-              >
-                Parse Current Browser UA
-              </Button>
-            </HStack>
-          </VStack>
-        </Box>
+        <VStack spacing={4} align="stretch">
+          <FormControl>
+            <Textarea
+              value={userAgentInput}
+              onChange={handleInputChange}
+              placeholder="Paste user agent string here or use the button below"
+              size="md"
+              minH="100px"
+              bg={colorMode === "dark" ? "gray.800" : "gray.50"}
+              fontFamily="monospace"
+            />
+          </FormControl>
+          <HStack spacing={4} justify="flex-start">
+            <Button
+              colorScheme="blue"
+              size="md"
+              onClick={handleParseClick}
+              isDisabled={!userAgentInput}
+            >
+              Parse Entered User Agent
+            </Button>
+            <Button
+              colorScheme="teal"
+              size="md"
+              onClick={handleParseCurrentUserAgent}
+            >
+              Parse Current Browser UA
+            </Button>
+          </HStack>
+        </VStack>
 
         {parsedResult && (
           <Box mt={4}>
@@ -161,8 +148,11 @@ const UserAgentParser = () => {
                 <Text>Detailed Analysis</Text>
                 <Badge
                   colorScheme={parsedResult.isBot ? "red" : "green"}
-                  variant="solid"
-                  fontSize="0.8em"
+                  variant="subtle"
+                  fontSize="sm"
+                  px={[3, 2]}
+                  py={1}
+                  borderRadius="md"
                 >
                   {parsedResult.isBot
                     ? "Identified as Bot"

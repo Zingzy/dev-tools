@@ -35,8 +35,6 @@ const Base64ImageTool = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalImage, setModalImage] = useState(null);
-  const [modalTitle, setModalTitle] = useState("");
-  const [modalDescription, setModalDescription] = useState("");
 
   const toast = useToast();
   const copyToClipboard = useCopyToClipboard();
@@ -141,7 +139,12 @@ const Base64ImageTool = () => {
           </Heading>
         </Box>
 
-        <Stack spacing={4} direction={{ base: "column", md: "row" }} justify="center" align="start">
+        <Stack
+          spacing={4}
+          direction={{ base: "column", md: "row" }}
+          justify="center"
+          align="start"
+        >
           <Box w={{ base: "100%", md: "50%" }} height={"100%"}>
             <Box>
               <VStack spacing={4} align="stretch" h="100%">
