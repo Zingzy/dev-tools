@@ -14,18 +14,25 @@ import {
   Stack,
   Flex,
   Badge,
+  Code,
 } from "@chakra-ui/react";
 import { parseUserAgent } from "../../utils/userAgentUtils";
 
 // Helper component to display a key-value pair
-const InfoItem = ({ label, value }) => (
+const InfoItem = ({ label, value, isCode = false }) => (
   <Flex justify="space-between" align="baseline">
     <Text fontSize="sm" fontWeight="bold" mr={2}>
       {label}:
     </Text>
-    <Text fontSize="sm" textAlign="right">
-      {value || "N/A"}
-    </Text>
+    {isCode ? (
+      <Code fontSize="sm" wordBreak="break-all" whiteSpace="pre-wrap">
+        {value || "N/A"}
+      </Code>
+    ) : (
+      <Text fontSize="sm" textAlign="right">
+        {value || "N/A"}
+      </Text>
+    )}
   </Flex>
 );
 
@@ -81,7 +88,6 @@ const UserAgentParser = () => {
         User Agent Parser
       </Heading>
       <VStack spacing={6} align="stretch">
-        {/* Input Section */}
         <Box
           borderWidth="1px"
           borderColor={colorMode === "dark" ? "gray.700" : "gray.200"}
@@ -126,10 +132,8 @@ const UserAgentParser = () => {
           </VStack>
         </Box>
 
-        {/* Results Section */}
         {parsedResult && (
           <Box mt={4}>
-            {/* Summary Header */}
             <Box
               bg={colorMode === "dark" ? "blue.800" : "blue.500"}
               color="white"
@@ -150,102 +154,110 @@ const UserAgentParser = () => {
                   ({parsedResult.device.vendor} {parsedResult.device.model})
                 </Text>
               )}
-              {/* Display Bot Status in Summary */}
-              <Badge
-                mt={2}
-                colorScheme={parsedResult.isBot ? "red" : "green"}
-                variant="solid"
-                fontSize="0.8em"
-              >
-                {parsedResult.isBot
-                  ? "Identified as Bot"
-                  : "Not Identified as Bot"}
-              </Badge>
             </Box>
 
-            {/* Detailed Grid */}
             <Heading as="h2" size="md" mb={4}>
-              Detailed Analysis
+              <HStack spacing={1} align="center" justify="space-between">
+                <Text>Detailed Analysis</Text>
+                <Badge
+                  colorScheme={parsedResult.isBot ? "red" : "green"}
+                  variant="solid"
+                  fontSize="0.8em"
+                >
+                  {parsedResult.isBot
+                    ? "Identified as Bot"
+                    : "Not Identified as Bot"}
+                </Badge>
+              </HStack>
             </Heading>
-            <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={5}>
-              {/* Software Info */}
-              <InfoCard title="Software">
-                <InfoItem
-                  label="Browser Name"
-                  value={parsedResult.browser.name}
-                />
-                <InfoItem
-                  label="Browser Version (Full)"
-                  value={parsedResult.browser.version}
-                />
-                <InfoItem
-                  label="Browser Version (Major)"
-                  value={parsedResult.browser.major}
-                />
-                <InfoItem
-                  label="Layout Engine Name"
-                  value={parsedResult.engine.name}
-                />
-                <InfoItem
-                  label="Engine Version"
-                  value={parsedResult.engine.version}
-                />
-              </InfoCard>
+            {parsedResult.isBot ? (
+              // Display only Miscellaneous card when it's a bot
+              <SimpleGrid columns={1} spacing={5}>
+                <InfoCard title="Bot Details">
+                  <InfoItem
+                    label="Is Bot (Standard)"
+                    value={parsedResult.isBot ? "Yes" : "No"}
+                  />
+                  <InfoItem
+                    label="Is Bot (Naive)"
+                    value={parsedResult.isBotNaive ? "Yes" : "No"}
+                  />
+                  <InfoItem
+                    label="Matched Substring"
+                    value={parsedResult.matchedSubstring}
+                  />
+                  {/* Display all matched substrings if any */}
+                  {parsedResult.allMatchedSubstrings &&
+                    parsedResult.allMatchedSubstrings.length > 0 && (
+                      <InfoItem
+                        label="All Matched Substrings"
+                        value={parsedResult.allMatchedSubstrings.join(", ")}
+                      />
+                    )}
+                  {/* Display Pattern String Match as Code */}
+                  <InfoItem
+                    label="Pattern String Match"
+                    value={parsedResult.patternStringMatch}
+                    isCode={true}
+                  />
+                </InfoCard>
+              </SimpleGrid>
+            ) : (
+              // Display Software, OS, and Hardware cards when it's not a bot
+              <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={5}>
+                <InfoCard title="Software">
+                  <InfoItem
+                    label="Browser Name"
+                    value={parsedResult.browser.name}
+                  />
+                  <InfoItem
+                    label="Browser Version (Full)"
+                    value={parsedResult.browser.version}
+                  />
+                  <InfoItem
+                    label="Browser Version (Major)"
+                    value={parsedResult.browser.major}
+                  />
+                  <InfoItem
+                    label="Layout Engine Name"
+                    value={parsedResult.engine.name}
+                  />
+                  <InfoItem
+                    label="Engine Version"
+                    value={parsedResult.engine.version}
+                  />
+                </InfoCard>
 
-              {/* OS Info */}
-              <InfoCard title="Operating System">
-                <InfoItem label="OS Name" value={parsedResult.os.name} />
-                <InfoItem label="OS Version" value={parsedResult.os.version} />
-              </InfoCard>
+                {/* OS Info */}
+                <InfoCard title="Operating System">
+                  <InfoItem label="OS Name" value={parsedResult.os.name} />
+                  <InfoItem
+                    label="OS Version"
+                    value={parsedResult.os.version}
+                  />
+                </InfoCard>
 
-              {/* Hardware Info */}
-              <InfoCard title="Hardware">
-                <InfoItem
-                  label="Device Vendor"
-                  value={parsedResult.device.vendor}
-                />
-                <InfoItem
-                  label="Device Model"
-                  value={parsedResult.device.model}
-                />
-                <InfoItem
-                  label="Device Type"
-                  value={parsedResult.device.type}
-                />
-                <InfoItem
-                  label="CPU Architecture"
-                  value={parsedResult.cpu.architecture}
-                />
-              </InfoCard>
-
-              {/* Misc Info */}
-              <InfoCard title="Miscellaneous">
-                <InfoItem
-                  label="Is Bot (Standard)"
-                  value={parsedResult.isBot ? "Yes" : "No"}
-                />
-                <InfoItem
-                  label="Is Bot (Naive)"
-                  value={parsedResult.isBotNaive ? "Yes" : "No"}
-                />
-                <InfoItem
-                  label="Matched Substring"
-                  value={parsedResult.matchedSubstring}
-                />
-                {/* Display all matched substrings if any */}
-                {parsedResult.allMatchedSubstrings &&
-                  parsedResult.allMatchedSubstrings.length > 0 && (
-                    <InfoItem
-                      label="All Matched Substrings"
-                      value={parsedResult.allMatchedSubstrings.join(", ")}
-                    />
-                  )}
-                <InfoItem
-                  label="Pattern String Match"
-                  value={parsedResult.patternStringMatch}
-                />
-              </InfoCard>
-            </SimpleGrid>
+                {/* Hardware Info */}
+                <InfoCard title="Hardware">
+                  <InfoItem
+                    label="Device Vendor"
+                    value={parsedResult.device.vendor}
+                  />
+                  <InfoItem
+                    label="Device Model"
+                    value={parsedResult.device.model}
+                  />
+                  <InfoItem
+                    label="Device Type"
+                    value={parsedResult.device.type}
+                  />
+                  <InfoItem
+                    label="CPU Architecture"
+                    value={parsedResult.cpu.architecture}
+                  />
+                </InfoCard>
+              </SimpleGrid>
+            )}
           </Box>
         )}
       </VStack>
