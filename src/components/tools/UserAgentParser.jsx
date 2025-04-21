@@ -1,24 +1,53 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   Box,
   Button,
   FormControl,
   FormLabel,
-  Input,
   HStack,
   VStack,
   Textarea,
   Heading,
   Text,
-  Divider,
   useColorMode,
-  Card,
-  CardHeader,
-  CardBody,
   SimpleGrid,
   Stack,
+  Flex,
+  Badge,
 } from "@chakra-ui/react";
 import { parseUserAgent } from "../../utils/userAgentUtils";
+
+// Helper component to display a key-value pair
+const InfoItem = ({ label, value }) => (
+  <Flex justify="space-between" align="baseline">
+    <Text fontSize="sm" fontWeight="bold" mr={2}>
+      {label}:
+    </Text>
+    <Text fontSize="sm" textAlign="right">
+      {value || "N/A"}
+    </Text>
+  </Flex>
+);
+
+// Helper component for a section card
+const InfoCard = ({ title, children }) => {
+  const { colorMode } = useColorMode();
+  return (
+    <Box
+      borderWidth="1px"
+      borderColor={colorMode === "dark" ? "gray.700" : "gray.200"}
+      borderRadius="md"
+      p={4}
+      bg={colorMode === "dark" ? "gray.800" : "white"}
+      height="100%" // Ensure cards have same height in grid
+    >
+      <Heading size="sm" mb={3} borderBottomWidth="1px" pb={2}>
+        {title}
+      </Heading>
+      <Stack spacing={2}>{children}</Stack>
+    </Box>
+  );
+};
 
 const UserAgentParser = () => {
   const { colorMode } = useColorMode();
@@ -35,19 +64,16 @@ const UserAgentParser = () => {
       return;
     }
     const result = parseUserAgent(userAgentInput);
+    console.log(result);
     setParsedResult(result);
   };
 
   const handleParseCurrentUserAgent = () => {
-    const result = parseUserAgent(navigator.userAgent);
+    const currentUA = navigator.userAgent;
+    const result = parseUserAgent(currentUA);
     setParsedResult(result);
-    setUserAgentInput(navigator.userAgent); // Set input to current UA as well
+    setUserAgentInput(currentUA); // Set input to current UA as well
   };
-
-  // Optional: Parse current user agent on mount
-  // useEffect(() => {
-  //   handleParseCurrentUserAgent();
-  // }, []);
 
   return (
     <Box>
@@ -55,114 +81,170 @@ const UserAgentParser = () => {
         User Agent Parser
       </Heading>
       <VStack spacing={6} align="stretch">
-        <Box>
-          <FormControl>
-            <FormLabel fontSize="md">Enter User Agent String</FormLabel>
-            <Textarea
-              value={userAgentInput}
-              onChange={handleInputChange}
-              placeholder="Paste user agent string here"
-              size="md"
-              minH="80px" // Adjusted height for textarea
-              bg={colorMode === "dark" ? "gray.800" : "gray.50"}
-              _focus={{
-                borderColor: colorMode === "dark" ? "blue.400" : "blue.600",
-                bg: colorMode === "dark" ? "gray.800" : "white",
-              }}
-            />
-          </FormControl>
+        {/* Input Section */}
+        <Box
+          borderWidth="1px"
+          borderColor={colorMode === "dark" ? "gray.700" : "gray.200"}
+          borderRadius="md"
+          p={{ base: 4, md: 6 }}
+          bg={colorMode === "dark" ? "gray.800" : "white"}
+        >
+          <VStack spacing={4} align="stretch">
+            <FormControl>
+              <FormLabel fontSize="md">User Agent String</FormLabel>
+              <Textarea
+                value={userAgentInput}
+                onChange={handleInputChange}
+                placeholder="Paste user agent string here or use the button below"
+                size="md"
+                minH="100px"
+                bg={colorMode === "dark" ? "gray.700" : "gray.50"}
+                _focus={{
+                  borderColor: colorMode === "dark" ? "blue.400" : "blue.600",
+                  bg: colorMode === "dark" ? "gray.700" : "white",
+                }}
+                fontFamily="monospace"
+              />
+            </FormControl>
+            <HStack spacing={4} justify="flex-start">
+              <Button
+                colorScheme="blue"
+                size="md"
+                onClick={handleParseClick}
+                isDisabled={!userAgentInput}
+              >
+                Parse Entered User Agent
+              </Button>
+              <Button
+                colorScheme="teal"
+                size="md"
+                onClick={handleParseCurrentUserAgent}
+              >
+                Parse Current Browser UA
+              </Button>
+            </HStack>
+          </VStack>
         </Box>
 
-        <HStack spacing={4} justify="center">
-          <Button
-            colorScheme="blue"
-            size="md"
-            onClick={handleParseClick}
-            isDisabled={!userAgentInput} // Disable if input is empty
-          >
-            Parse User Agent
-          </Button>
-          <Button
-            colorScheme="teal"
-            size="md"
-            onClick={handleParseCurrentUserAgent}
-          >
-            Parse Current User Agent
-          </Button>
-        </HStack>
-
+        {/* Results Section */}
         {parsedResult && (
-          <Box mt={6}>
-            <Heading as="h2" size="md" mb={4}>Analysis Result</Heading>
-            <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={6}> {/* Adjusted columns for larger screens */}
+          <Box mt={4}>
+            {/* Summary Header */}
+            <Box
+              bg={colorMode === "dark" ? "blue.800" : "blue.500"}
+              color="white"
+              p={4}
+              borderRadius="md"
+              mb={6}
+              textAlign="center"
+            >
+              <Heading size="md">
+                {parsedResult.browser.name || "Unknown Browser"}{" "}
+                {parsedResult.browser.version || ""}
+                {" on "}
+                {parsedResult.os.name || "Unknown OS"}{" "}
+                {parsedResult.os.version || ""}
+              </Heading>
+              {parsedResult.device.vendor && parsedResult.device.model && (
+                <Text fontSize="sm" mt={1}>
+                  ({parsedResult.device.vendor} {parsedResult.device.model})
+                </Text>
+              )}
+              {/* Display Bot Status in Summary */}
+              <Badge
+                mt={2}
+                colorScheme={parsedResult.isBot ? "red" : "green"}
+                variant="solid"
+                fontSize="0.8em"
+              >
+                {parsedResult.isBot
+                  ? "Identified as Bot"
+                  : "Not Identified as Bot"}
+              </Badge>
+            </Box>
 
-              {/* Browser Info */}
-              <Card variant="outline" borderColor={colorMode === "dark" ? "gray.700" : "gray.200"}>
-                <CardHeader>
-                  <Heading size="sm">Browser</Heading>
-                </CardHeader>
-                <CardBody>
-                  <Stack spacing={2}>
-                    <Text fontSize="sm"><Text as="span" fontWeight="bold">Name:</Text> {parsedResult.browser.name || 'N/A'}</Text>
-                    <Text fontSize="sm"><Text as="span" fontWeight="bold">Version:</Text> {parsedResult.browser.version || 'N/A'}</Text>
-                    <Text fontSize="sm"><Text as="span" fontWeight="bold">Major:</Text> {parsedResult.browser.major || 'N/A'}</Text>
-                  </Stack>
-                </CardBody>
-              </Card>
+            {/* Detailed Grid */}
+            <Heading as="h2" size="md" mb={4}>
+              Detailed Analysis
+            </Heading>
+            <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={5}>
+              {/* Software Info */}
+              <InfoCard title="Software">
+                <InfoItem
+                  label="Browser Name"
+                  value={parsedResult.browser.name}
+                />
+                <InfoItem
+                  label="Browser Version (Full)"
+                  value={parsedResult.browser.version}
+                />
+                <InfoItem
+                  label="Browser Version (Major)"
+                  value={parsedResult.browser.major}
+                />
+                <InfoItem
+                  label="Layout Engine Name"
+                  value={parsedResult.engine.name}
+                />
+                <InfoItem
+                  label="Engine Version"
+                  value={parsedResult.engine.version}
+                />
+              </InfoCard>
 
               {/* OS Info */}
-              <Card variant="outline" borderColor={colorMode === "dark" ? "gray.700" : "gray.200"}>
-                <CardHeader>
-                  <Heading size="sm">Operating System</Heading>
-                </CardHeader>
-                <CardBody>
-                  <Stack spacing={2}>
-                    <Text fontSize="sm"><Text as="span" fontWeight="bold">Name:</Text> {parsedResult.os.name || 'N/A'}</Text>
-                    <Text fontSize="sm"><Text as="span" fontWeight="bold">Version:</Text> {parsedResult.os.version || 'N/A'}</Text>
-                  </Stack>
-                </CardBody>
-              </Card>
+              <InfoCard title="Operating System">
+                <InfoItem label="OS Name" value={parsedResult.os.name} />
+                <InfoItem label="OS Version" value={parsedResult.os.version} />
+              </InfoCard>
 
-              {/* Device Info */}
-              <Card variant="outline" borderColor={colorMode === "dark" ? "gray.700" : "gray.200"}>
-                <CardHeader>
-                  <Heading size="sm">Device</Heading>
-                </CardHeader>
-                <CardBody>
-                  <Stack spacing={2}>
-                    <Text fontSize="sm"><Text as="span" fontWeight="bold">Vendor:</Text> {parsedResult.device.vendor || 'N/A'}</Text>
-                    <Text fontSize="sm"><Text as="span" fontWeight="bold">Model:</Text> {parsedResult.device.model || 'N/A'}</Text>
-                    <Text fontSize="sm"><Text as="span" fontWeight="bold">Type:</Text> {parsedResult.device.type || 'N/A'}</Text>
-                  </Stack>
-                </CardBody>
-              </Card>
+              {/* Hardware Info */}
+              <InfoCard title="Hardware">
+                <InfoItem
+                  label="Device Vendor"
+                  value={parsedResult.device.vendor}
+                />
+                <InfoItem
+                  label="Device Model"
+                  value={parsedResult.device.model}
+                />
+                <InfoItem
+                  label="Device Type"
+                  value={parsedResult.device.type}
+                />
+                <InfoItem
+                  label="CPU Architecture"
+                  value={parsedResult.cpu.architecture}
+                />
+              </InfoCard>
 
-              {/* Engine Info */}
-              <Card variant="outline" borderColor={colorMode === "dark" ? "gray.700" : "gray.200"}>
-                <CardHeader>
-                  <Heading size="sm">Engine</Heading>
-                </CardHeader>
-                <CardBody>
-                  <Stack spacing={2}>
-                    <Text fontSize="sm"><Text as="span" fontWeight="bold">Name:</Text> {parsedResult.engine.name || 'N/A'}</Text>
-                    <Text fontSize="sm"><Text as="span" fontWeight="bold">Version:</Text> {parsedResult.engine.version || 'N/A'}</Text>
-                  </Stack>
-                </CardBody>
-              </Card>
-
-               {/* CPU Info */}
-               <Card variant="outline" borderColor={colorMode === "dark" ? "gray.700" : "gray.200"}>
-                <CardHeader>
-                  <Heading size="sm">CPU</Heading>
-                </CardHeader>
-                <CardBody>
-                  <Stack spacing={2}>
-                    <Text fontSize="sm"><Text as="span" fontWeight="bold"> Architecture:</Text> {parsedResult.cpu.architecture || 'N/A'}</Text>
-                  </Stack>
-                </CardBody>
-              </Card>
-
-
+              {/* Misc Info */}
+              <InfoCard title="Miscellaneous">
+                <InfoItem
+                  label="Is Bot (Standard)"
+                  value={parsedResult.isBot ? "Yes" : "No"}
+                />
+                <InfoItem
+                  label="Is Bot (Naive)"
+                  value={parsedResult.isBotNaive ? "Yes" : "No"}
+                />
+                <InfoItem
+                  label="Matched Substring"
+                  value={parsedResult.matchedSubstring}
+                />
+                {/* Display all matched substrings if any */}
+                {parsedResult.allMatchedSubstrings &&
+                  parsedResult.allMatchedSubstrings.length > 0 && (
+                    <InfoItem
+                      label="All Matched Substrings"
+                      value={parsedResult.allMatchedSubstrings.join(", ")}
+                    />
+                  )}
+                <InfoItem
+                  label="Pattern String Match"
+                  value={parsedResult.patternStringMatch}
+                />
+              </InfoCard>
             </SimpleGrid>
           </Box>
         )}
