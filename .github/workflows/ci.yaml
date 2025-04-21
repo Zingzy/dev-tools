@@ -38,3 +38,6 @@ jobs:
 
       - name: Lint with ESLint
         run: npm run lint
+
+      - name: Build with Vite
+        run: npm run build

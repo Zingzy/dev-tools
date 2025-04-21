@@ -186,7 +186,6 @@ const UserAgentParser = () => {
                     label="Matched Substring"
                     value={parsedResult.matchedSubstring}
                   />
-                  {/* Display all matched substrings if any */}
                   {parsedResult.allMatchedSubstrings &&
                     parsedResult.allMatchedSubstrings.length > 0 && (
                       <InfoItem
@@ -194,7 +193,6 @@ const UserAgentParser = () => {
                         value={parsedResult.allMatchedSubstrings.join(", ")}
                       />
                     )}
-                  {/* Display Pattern String Match as Code */}
                   <InfoItem
                     label="Pattern String Match"
                     value={parsedResult.patternStringMatch}
@@ -228,7 +226,6 @@ const UserAgentParser = () => {
                   />
                 </InfoCard>
 
-                {/* OS Info */}
                 <InfoCard title="Operating System">
                   <InfoItem label="OS Name" value={parsedResult.os.name} />
                   <InfoItem
@@ -237,7 +234,6 @@ const UserAgentParser = () => {
                   />
                 </InfoCard>
 
-                {/* Hardware Info */}
                 <InfoCard title="Hardware">
                   <InfoItem
                     label="Device Vendor"
