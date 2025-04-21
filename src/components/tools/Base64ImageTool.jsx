@@ -267,8 +267,6 @@ const Base64ImageTool = () => {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         image={modalImage}
-        title={modalTitle}
-        description={modalDescription}
       />
     </Box>
   );
