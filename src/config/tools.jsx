@@ -8,6 +8,7 @@ import {
   IconTypography,
   IconPhoto,
   IconEyeCheck,
+  IconDeviceMobileMessage,
 } from "@tabler/icons-react";
 
 // Configuration for all available developer tools.
@@ -77,6 +78,14 @@ export const tools = [
     path: "/tools/lorem-ipsum",
     icon: <IconTypography size={20} />,
     component: lazy(() => import("../components/tools/LoremIpsumTool")),
+  },
+  {
+    name: "User Agent Parser",
+    description:
+      "Parse user agent strings to get detailed information about the browser, OS, and device.",
+    path: "/tools/user-agent-parser",
+    icon: <IconDeviceMobileMessage size={20} />,
+    component: lazy(() => import("../components/tools/UserAgentParser")),
   },
 ];
 
