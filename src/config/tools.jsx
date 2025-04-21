@@ -87,6 +87,14 @@ export const tools = [
     icon: <IconDeviceMobileMessage size={20} />,
     component: lazy(() => import("../components/tools/UserAgentParser")),
   },
+  {
+    name: "Base64 Image Encoder/Decoder",
+    description:
+      "Encode and decode images to/from Base64 format. Supports drag and drop or pasting Base64 data.",
+    path: "/tools/base64-image",
+    icon: <IconPhoto size={20} />,
+    component: lazy(() => import("../components/tools/Base64ImageTool")),
+  },
 ];
 
 // Generate route configurations for all tools.
