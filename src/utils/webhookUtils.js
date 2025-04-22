@@ -48,29 +48,49 @@ export const verifyHCaptcha = async (token) => {
     throw new Error("hCaptcha secret is not configured");
   }
 
-  const formData = new FormData();
-  formData.append("secret", secret);
-  formData.append("response", token);
+  try {
+    const params = new URLSearchParams();
+    params.append("secret", secret);
+    params.append("response", token);
+    params.append("sitekey", import.meta.env.VITE_HCAPTCHA_SITE_KEY);
 
-  // proxy to hCaptcha verification endpoint, proxy is configured in vite.config.js
-  const response = await fetch("/api/verify-captcha", {
-    method: "POST",
-    body: formData,
-  });
+    // proxy to hCaptcha verification endpoint, proxy is configured in vite.config.js
+    const response = await fetch("/api/verify-captcha", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: params,
+    });
 
-  if (!response.ok) {
-    throw new Error(
-      `hCaptcha verification failed with status ${response.status}`,
-    );
+    if (!response.ok) {
+      console.error('Response status:', response.status);
+      console.error('Response headers:', Object.fromEntries(response.headers.entries()));
+      const errorText = await response.text();
+      console.error('Response body:', errorText);
+
+      throw new Error(
+        `hCaptcha verification failed with status ${response.status}. Error: ${errorText}`
+      );
+    }
+
+    let data;
+    try {
+      data = await response.json();
+    } catch (error) {
+      console.error('Failed to parse JSON response:', error);
+      throw new Error('Invalid response from hCaptcha verification service');
+    }
+
+    if (!data.success) {
+      const errors = data["error-codes"] || ["Unknown error"];
+      console.error("hCaptcha verification failed:", errors);
+      throw new Error(`Failed to verify hCaptcha response: ${errors.join(", ")}`);
+    }
+
+    return data.success;
+  } catch (error) {
+    console.error('hCaptcha verification error:', error);
+    throw error;
   }
-
-  const data = await response.json();
-
-  if (!data.success) {
-    const errors = data["error-codes"] || ["Unknown error"];
-    console.error("hCaptcha verification failed:", errors);
-    throw new Error(`Failed to verify hCaptcha response: ${errors.join(", ")}`);
-  }
-
-  return data.success;
 };
