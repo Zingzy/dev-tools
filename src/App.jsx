@@ -4,10 +4,12 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { ToolsProvider } from "./contexts/ToolsContext";
 import RootLayout from "./components/layout/RootLayout";
+import ErrorLayout from "./components/layout/ErrorLayout";
+import ErrorPage from "./pages/ErrorPage";
 import theme from "./theme";
 import { generateToolRoutes } from "./config/tools.jsx";
 
-// Lazy load homepage
+// Lazy load pages
 const HomePage = lazy(() => import("./pages/HomePage"));
 const ContactPage = lazy(() => import("./pages/ContactPage"));
 
@@ -36,6 +38,14 @@ const router = createBrowserRouter([
       // Automatically generate all other tools
       ...generateToolRoutes(<div>Loading...</div>),
     ],
+  },
+  {
+    path: "*",
+    element: (
+      <ErrorLayout>
+        <ErrorPage />
+      </ErrorLayout>
+    ),
   },
 ]);
 
