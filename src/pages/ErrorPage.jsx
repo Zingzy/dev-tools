@@ -1,4 +1,11 @@
-import { Box, Button, Heading, Text, VStack, useColorMode } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Heading,
+  Text,
+  VStack,
+  useColorMode,
+} from "@chakra-ui/react";
 import { WarningTwoIcon } from "@chakra-ui/icons";
 import { Link } from "react-router-dom";
 
@@ -13,10 +20,7 @@ const ErrorPage = () => {
       minH="calc(100vh - 200px)"
       py={20}
     >
-      <Box
-        _hover={{ transform: "scale(1.1)" }}
-        transition="transform 0.2s"
-      >
+      <Box _hover={{ transform: "scale(1.1)" }} transition="transform 0.2s">
         <WarningTwoIcon
           boxSize="100px"
           color={colorMode === "dark" ? "orange.300" : "orange.500"}
@@ -42,7 +46,8 @@ const ErrorPage = () => {
           color={colorMode === "dark" ? "gray.400" : "gray.600"}
           textAlign="center"
         >
-          Oops! The tool you're looking for seems to have vanished into the digital void.
+          Oops! The tool you're looking for seems to have vanished into the
+          digital void.
         </Text>
       </VStack>
 

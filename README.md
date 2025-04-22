@@ -33,33 +33,33 @@ DevTools is a collection of modern utilities designed to help developers with co
 
 1. Clone the repository
 
-    ```bash
-    git clone https://github.com/yourusername/dev-tools.git
-    ```
+   ```bash
+   git clone https://github.com/yourusername/dev-tools.git
+   ```
 
 2. Navigate to the project directory
 
-    ```bash
-    cd dev-tools
-    ```
+   ```bash
+   cd dev-tools
+   ```
 
 3. Install dependencies
 
-    ```bash
-    npm install
-    ```
+   ```bash
+   npm install
+   ```
 
 4. Create a `.env` file from the example
 
-    ```bash
-    cp .env.example .env
-    ```
+   ```bash
+   cp .env.example .env
+   ```
 
 5. Start the development server
 
-    ```bash
-    npm run dev
-    ```
+   ```bash
+   npm run dev
+   ```
 
 ## 🔧 Tech Stack
 

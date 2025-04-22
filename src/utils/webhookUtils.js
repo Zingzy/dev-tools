@@ -64,13 +64,16 @@ export const verifyHCaptcha = async (token) => {
     });
 
     if (!response.ok) {
-      console.error('Response status:', response.status);
-      console.error('Response headers:', Object.fromEntries(response.headers.entries()));
+      console.error("Response status:", response.status);
+      console.error(
+        "Response headers:",
+        Object.fromEntries(response.headers.entries()),
+      );
       const errorText = await response.text();
-      console.error('Response body:', errorText);
+      console.error("Response body:", errorText);
 
       throw new Error(
-        `hCaptcha verification failed with status ${response.status}. Error: ${errorText}`
+        `hCaptcha verification failed with status ${response.status}. Error: ${errorText}`,
       );
     }
 
@@ -78,19 +81,21 @@ export const verifyHCaptcha = async (token) => {
     try {
       data = await response.json();
     } catch (error) {
-      console.error('Failed to parse JSON response:', error);
-      throw new Error('Invalid response from hCaptcha verification service');
+      console.error("Failed to parse JSON response:", error);
+      throw new Error("Invalid response from hCaptcha verification service");
     }
 
     if (!data.success) {
       const errors = data["error-codes"] || ["Unknown error"];
       console.error("hCaptcha verification failed:", errors);
-      throw new Error(`Failed to verify hCaptcha response: ${errors.join(", ")}`);
+      throw new Error(
+        `Failed to verify hCaptcha response: ${errors.join(", ")}`,
+      );
     }
 
     return data.success;
   } catch (error) {
-    console.error('hCaptcha verification error:', error);
+    console.error("hCaptcha verification error:", error);
     throw error;
   }
 };

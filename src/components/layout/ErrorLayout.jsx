@@ -6,9 +6,7 @@ const ErrorLayout = ({ children }) => {
     <Flex minH="100vh" direction="column">
       <Navbar />
       <Box flex="1" p={4} as="main">
-        <Container maxW="container.xl">
-          {children}
-        </Container>
+        <Container maxW="container.xl">{children}</Container>
       </Box>
     </Flex>
   );
