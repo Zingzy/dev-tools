@@ -9,6 +9,7 @@ import {
   IconPhoto,
   IconEyeCheck,
   IconDeviceMobileMessage,
+  IconCalculator,
 } from "@tabler/icons-react";
 
 // Configuration for all available developer tools.
@@ -94,6 +95,14 @@ export const tools = [
     path: "/tools/color-picker",
     icon: <IconPalette size={20} />,
     component: lazy(() => import("../components/tools/ColorPickerTool")),
+  },
+  {
+    name: "Checksum Generator",
+    description:
+      "Generate checksums for files using various algorithms (MD5, SHA1, SHA256, etc). Verify file integrity with cryptographic hashes.",
+    path: "/tools/checksum-generator",
+    icon: <IconCalculator size={20} />,
+    component: lazy(() => import("../components/tools/ChecksumGeneratorTool")),
   },
 ];
 

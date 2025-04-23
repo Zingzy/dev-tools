@@ -59,3 +59,16 @@ export const validateImageFile = (file, maxSize) => {
 
   return true;
 };
+
+// Validate any file with size limit
+export const validateFile = (file, maxSize) => {
+  if (!file) {
+    throw new Error("No file provided");
+  }
+
+  if (file.size > maxSize) {
+    throw new Error(`File size must be less than ${maxSize / (1024 * 1024)}MB`);
+  }
+
+  return true;
+};

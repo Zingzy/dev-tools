@@ -16,6 +16,7 @@ const DropZone = ({
   isProcessing,
   acceptedFileTypes = ["image/*"],
   errorDuration = 3000,
+  maxSize = 5,
 }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [error, setError] = useState("");
@@ -23,6 +24,11 @@ const DropZone = ({
 
   const validateFile = useCallback(
     (file) => {
+      // Check if any file type is accepted
+      if (acceptedFileTypes.includes("*/*")) {
+        return true;
+      }
+
       const isValidType = acceptedFileTypes.some((type) => {
         if (type === "image/*") {
           return file.type.startsWith("image/");
@@ -35,9 +41,17 @@ const DropZone = ({
         setTimeout(() => setError(""), errorDuration);
         return false;
       }
+
+      // Check file size
+      if (file.size > maxSize * 1024 * 1024) {
+        setError(`File size must be less than ${maxSize}MB`);
+        setTimeout(() => setError(""), errorDuration);
+        return false;
+      }
+
       return true;
     },
-    [acceptedFileTypes, errorDuration],
+    [acceptedFileTypes, errorDuration, maxSize],
   );
 
   const handleDrag = useCallback((e) => {
@@ -89,8 +103,12 @@ const DropZone = ({
   );
 
   const formatAcceptedTypes = useCallback(() => {
+    if (acceptedFileTypes.includes("*/*")) {
+      return "all files";
+    }
     return acceptedFileTypes
       .map((type) => {
+        if (type === "*/*") return "all files";
         return `${type.split("/")[0]} files`;
       })
       .join(", ");
@@ -167,7 +185,7 @@ const DropZone = ({
         </Text>
         <Text fontSize="sm">
           {!isProcessing ? (
-            `Supports ${formatAcceptedTypes()} (max 5MB)`
+            `Supports ${formatAcceptedTypes()} (max ${maxSize}MB)`
           ) : (
             <HStack spacing={2} justify="center">
               <Spinner size="sm" color="blue.500" />
