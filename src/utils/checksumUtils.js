@@ -49,42 +49,6 @@ const readFileAsArrayBuffer = (file) => {
   });
 };
 
-// Read a file in chunks to handle large files more efficiently
-const readFileInChunks = (file, chunkSize, onChunkRead) => {
-  return new Promise((resolve, reject) => {
-    const fileSize = file.size;
-    let offset = 0;
-
-    const reader = new FileReader();
-
-    reader.onload = (e) => {
-      if (onChunkRead) {
-        onChunkRead(e.target.result);
-      }
-
-      offset += e.target.result.byteLength;
-
-      if (offset >= fileSize) {
-        resolve();
-        return;
-      }
-
-      readNextChunk();
-    };
-
-    reader.onerror = (err) => {
-      reject(err);
-    };
-
-    const readNextChunk = () => {
-      const slice = file.slice(offset, offset + chunkSize);
-      reader.readAsArrayBuffer(slice);
-    };
-
-    readNextChunk();
-  });
-};
-
 // Get the Web Crypto API algorithm name from our display name
 export const getAlgorithmName = (algorithm) => {
   const algorithmMap = {
