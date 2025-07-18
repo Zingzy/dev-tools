@@ -8,7 +8,12 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "format": "prettier --write ."
+    "format:fix": "biome format --write",
+    "format:check": "biome format",
+    "lint:fix": "biome lint --write",
+    "lint:check": "biome lint",
+    "biome:fix": "biome check --write",
+    "biome:check": "biome check"
   },
   "dependencies": {
     "@chakra-ui/icons": "^2.1.1",
@@ -29,6 +34,7 @@
     "ua-parser-js": "^2.0.3"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.1.2",
     "@eslint/js": "^8.56.0",
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
