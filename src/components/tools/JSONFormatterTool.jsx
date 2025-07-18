@@ -15,7 +15,7 @@ import {
 	useToast,
 	VStack,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useCopyToClipboard } from "../../hooks/useCopyToClipboard";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { useToolHistory } from "../../hooks/useToolHistory";
@@ -64,7 +64,7 @@ const JSONFormatterTool = () => {
 		}
 	};
 
-	const format = () => {
+	const format = useCallback(() => {
 		if (isEmpty(input)) {
 			toast({
 				title: "Empty Input",
@@ -92,7 +92,7 @@ const JSONFormatterTool = () => {
 			setIsValid(false);
 			setOutput("");
 		}
-	};
+	}, [input, indentation, sortKeys, toast, setOutput, recordHistory]);
 
 	const toggleSortKeys = () => {
 		setSortKeys(!sortKeys);
