@@ -78,6 +78,7 @@ DevTools is a collection of modern utilities designed to help developers with co
 - `isbot`: Bot detection
 - `prism-react-renderer`: Code syntax highlighting
 - `ua-parser-js`: User agent parsing
+- `BiomeJs`: Code Quality
 
 ## 🖼️ Preview
 
