@@ -2,16 +2,16 @@ import { useCallback } from "react";
 import { useTools } from "../contexts/ToolsContext";
 
 export const useToolHistory = (toolName) => {
-  const { addToHistory } = useTools();
+	const { addToHistory } = useTools();
 
-  const recordHistory = useCallback(
-    (input, output) => {
-      addToHistory(toolName, input, output);
-    },
-    [toolName, addToHistory],
-  );
+	const recordHistory = useCallback(
+		(input, output) => {
+			addToHistory(toolName, input, output);
+		},
+		[toolName, addToHistory],
+	);
 
-  return recordHistory;
+	return recordHistory;
 };
 
 // Example usage:
